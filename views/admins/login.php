@@ -27,8 +27,8 @@
                 <h5 class="card-title text-center">Đăng nhập</h5>
                 <form id="form-login">
                   <div class="form-label-group">
-                    <input type="text" id="email" class="form-control" placeholder="Email" name="email" autofocus>
-                    <label for="email">Email</label>
+                    <input type="text" id="username" class="form-control" placeholder="Tài khoản" name="username" autofocus>
+                    <label for="username">Tài khoản</label>
                   </div>
 
                   <div class="form-label-group">
