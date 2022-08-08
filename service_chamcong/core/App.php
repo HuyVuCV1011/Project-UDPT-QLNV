@@ -1,9 +1,10 @@
 <?php
 
-namespace Services\Service3\Core;
+namespace ServiceChamCong\Core;
 
 class App{
 
+    protected $controller = "auth";
     protected $action = "execute";
     protected $params = [];
 
@@ -13,12 +14,12 @@ class App{
 
         // Controller
         if(!is_null($arr)) {
-            if(file_exists("./services/service3/controllers/".$arr[0].".php")){
+            if(file_exists("./service_chamcong/controllers/".$arr[0].".php")){
                 $this->controller = $arr[0];
                 unset($arr[0]);
             }
         }
-        require_once "./services/service3/controllers/". $this->controller .".php";
+        require_once "./service_chamcong/controllers/". $this->controller .".php";
         $this->controller = new $this->controller;
 
         // Action
@@ -41,5 +42,4 @@ class App{
             return explode("/", filter_var(trim($_GET["url"], "/")));
         }
     }
-
 }

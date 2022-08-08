@@ -1,5 +1,6 @@
 <?php
 
+namespace ServiceDuAn\Core;
 /**
  * Class Controller
  */
@@ -11,18 +12,8 @@ class Controller
      */
     public function model($model)
     {
-        require_once "./services/service2/models/".$model.".php";
+        require_once "./service_duan/models/".$model.".php";
         return new $model;
-    }
-
-    /**
-     * Gọi view.
-     * @param $view
-     * @param array $data
-     */
-    public function view($view, $data=[])
-    {
-        require_once "./views/".$view.".php";
     }
 
     /**

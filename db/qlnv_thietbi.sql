@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2022 at 06:56 PM
+-- Generation Time: Aug 08, 2022 at 06:38 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `qlnv_3`
+-- Database: `qlnv_thietbi`
 --
 
 -- --------------------------------------------------------
@@ -40,104 +40,6 @@ INSERT INTO `loai_tb` (`LTB_ID`, `LTB_TEN`) VALUES
 ('ltb001', 'Laptop'),
 ('ltb002', 'Máy in'),
 ('ltb003', 'Tài khoản');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `nhan_vien`
---
-
-CREATE TABLE `nhan_vien` (
-  `NV_ID` varchar(10) NOT NULL,
-  `NV_GioiTinh` varchar(3) DEFAULT NULL,
-  `NV_Ten` varchar(50) DEFAULT NULL,
-  `NV_NSinh` date DEFAULT NULL,
-  `NV_SDT` varchar(10) DEFAULT NULL,
-  `NV_PhongBan` varchar(10) DEFAULT NULL,
-  `NV_MatKhau` varchar(12) DEFAULT NULL,
-  `NV_NGAYPHEPCONLAI` int(11) DEFAULT NULL,
-  `NV_LUONGTHEOGIO` double DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `nhan_vien`
---
-
-INSERT INTO `nhan_vien` (`NV_ID`, `NV_GioiTinh`, `NV_Ten`, `NV_NSinh`, `NV_SDT`, `NV_PhongBan`, `NV_MatKhau`, `NV_NGAYPHEPCONLAI`, `NV_LUONGTHEOGIO`) VALUES
-('nv001', 'Nam', 'Nguyen Van A', '2000-01-01', '0123456789', 'pb001', 'NhanVien01', 12, 30000),
-('nv002', 'Nu', 'Nguyen Thi B', '2000-01-01', '0123456788', 'pb002', 'NhanVien02', 12, 40000),
-('nv003', 'Nam', 'Nguyen Van C', '2000-01-01', '0123456787', 'pb003', 'NhanVien03', 12, 50000),
-('nv004', 'Nu', 'Nguyen Thi D', '2000-01-01', '0123456786', 'pb001', 'NhanVien04', 12, 30000),
-('nv005', 'Nam', 'Nguyen Van E', '2000-01-01', '0123456785', 'pb002', 'NhanVien05', 12, 40000),
-('nv006', 'Nu', 'Nguyen Thi F', '2000-01-01', '0123456784', 'pb003', 'NhanVien06', 12, 50000),
-('nv007', 'Nam', 'Nguyen Van G', '2000-01-01', '0123456783', 'pb001', 'NhanVien07', 12, 30000),
-('nv008', 'Nu', 'Nguyen Thi H', '2000-01-01', '0123456782', 'pb002', 'NhanVien08', 12, 40000),
-('nv009', 'Nam', 'Nguyen Van I', '2000-01-01', '0123456781', 'pb003', 'NhanVien09', 12, 50000),
-('nv010', 'Nu', 'Nguyen Thi K', '2000-01-01', '0123456780', 'pb001', 'NhanVien10', 12, 30000),
-('nv011', 'Nam', 'Nguyen Van L', '2000-01-01', '0123456799', 'pb002', 'NhanVien11', 12, 40000),
-('nv012', 'Nu', 'Nguyen Thi M', '2000-01-01', '0123456709', 'pb003', 'NhanVien012', 12, 50000),
-('nv013', 'Nam', 'Nguyen Van N', '2000-01-01', '0123456779', 'pb001', 'NhanVien13', 12, 30000),
-('nv014', 'Nu', 'Nguyen Thi O', '2000-01-01', '0123456769', 'pb002', 'NhanVien14', 12, 40000),
-('nv015', 'Nam', 'Nguyen Van P', '2000-01-01', '0123456759', 'pb003', 'NhanVien15', 12, 50000),
-('nv016', 'Nu', 'Nguyen Thi Q', '2000-01-01', '0123456749', 'pb001', 'NhanVien16', 12, 30000),
-('nv017', 'Nam', 'Nguyen Van R', '2000-01-01', '0123456739', 'pb002', 'NhanVien17', 12, 40000),
-('nv018', 'Nu', 'Nguyen Thi S', '2000-01-01', '0123456729', 'pb003', 'NhanVien18', 12, 50000),
-('nv019', 'Nam', 'Nguyen Van T', '2000-01-01', '0123456719', 'pb001', 'NhanVien19', 12, 30000),
-('nv020', 'Nu', 'Nguyen Thi U', '2000-01-01', '0123456979', 'pb002', 'NhanVien20', 12, 40000);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `phong_ban`
---
-
-CREATE TABLE `phong_ban` (
-  `PB_ID` varchar(10) NOT NULL,
-  `PB_TEN` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `phong_ban`
---
-
-INSERT INTO `phong_ban` (`PB_ID`, `PB_TEN`) VALUES
-('pb001', 'Phong IT'),
-('pb002', 'Phong ke toan'),
-('pb003', 'Ban giam doc');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `quan_li`
---
-
-CREATE TABLE `quan_li` (
-  `ID_QLI` varchar(10) NOT NULL,
-  `ID_NV` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `quan_li`
---
-
-INSERT INTO `quan_li` (`ID_QLI`, `ID_NV`) VALUES
-('nv001', 'nv004'),
-('nv001', 'nv007'),
-('nv004', 'nv010'),
-('nv004', 'nv013'),
-('nv007', 'nv016'),
-('nv007', 'nv019'),
-('nv002', 'nv005'),
-('nv002', 'nv008'),
-('nv005', 'nv011'),
-('nv005', 'nv014'),
-('nv008', 'nv017'),
-('nv007', 'nv020'),
-('nv003', 'nv006'),
-('nv006', 'nv009'),
-('nv006', 'nv012'),
-('nv006', 'nv015'),
-('nv006', 'nv018');
 
 -- --------------------------------------------------------
 
@@ -255,32 +157,11 @@ ALTER TABLE `loai_tb`
   ADD PRIMARY KEY (`LTB_ID`);
 
 --
--- Indexes for table `nhan_vien`
---
-ALTER TABLE `nhan_vien`
-  ADD PRIMARY KEY (`NV_ID`),
-  ADD KEY `fk_NV_PB` (`NV_PhongBan`);
-
---
--- Indexes for table `phong_ban`
---
-ALTER TABLE `phong_ban`
-  ADD PRIMARY KEY (`PB_ID`);
-
---
--- Indexes for table `quan_li`
---
-ALTER TABLE `quan_li`
-  ADD KEY `fk_ql_nv` (`ID_QLI`),
-  ADD KEY `fk_nv_nv` (`ID_NV`);
-
---
 -- Indexes for table `su_dung_tb`
 --
 ALTER TABLE `su_dung_tb`
   ADD PRIMARY KEY (`SD_ID`),
-  ADD KEY `fk_sdtb_tb` (`SD_IDTB`),
-  ADD KEY `fk_sdtb_nv` (`SD_IDNV`);
+  ADD KEY `fk_sdtb_tb` (`SD_IDTB`);
 
 --
 -- Indexes for table `thiet_bi`
@@ -294,8 +175,7 @@ ALTER TABLE `thiet_bi`
 --
 ALTER TABLE `yeu_cau_thiet_bi`
   ADD PRIMARY KEY (`YCTB_ID`),
-  ADD KEY `fk_yctb_ltb` (`YCTB_IDLTB`),
-  ADD KEY `fk_yctb_nv` (`YCTB_IDNV`);
+  ADD KEY `fk_yctb_ltb` (`YCTB_IDLTB`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -318,23 +198,9 @@ ALTER TABLE `yeu_cau_thiet_bi`
 --
 
 --
--- Constraints for table `nhan_vien`
---
-ALTER TABLE `nhan_vien`
-  ADD CONSTRAINT `fk_NV_PB` FOREIGN KEY (`NV_PhongBan`) REFERENCES `phong_ban` (`PB_ID`);
-
---
--- Constraints for table `quan_li`
---
-ALTER TABLE `quan_li`
-  ADD CONSTRAINT `fk_nv_nv` FOREIGN KEY (`ID_NV`) REFERENCES `nhan_vien` (`NV_ID`),
-  ADD CONSTRAINT `fk_ql_nv` FOREIGN KEY (`ID_QLI`) REFERENCES `nhan_vien` (`NV_ID`);
-
---
 -- Constraints for table `su_dung_tb`
 --
 ALTER TABLE `su_dung_tb`
-  ADD CONSTRAINT `fk_sdtb_nv` FOREIGN KEY (`SD_IDNV`) REFERENCES `nhan_vien` (`NV_ID`),
   ADD CONSTRAINT `fk_sdtb_tb` FOREIGN KEY (`SD_IDTB`) REFERENCES `thiet_bi` (`TB_ID`);
 
 --
@@ -347,8 +213,7 @@ ALTER TABLE `thiet_bi`
 -- Constraints for table `yeu_cau_thiet_bi`
 --
 ALTER TABLE `yeu_cau_thiet_bi`
-  ADD CONSTRAINT `fk_yctb_ltb` FOREIGN KEY (`YCTB_IDLTB`) REFERENCES `loai_tb` (`LTB_ID`),
-  ADD CONSTRAINT `fk_yctb_nv` FOREIGN KEY (`YCTB_IDNV`) REFERENCES `nhan_vien` (`NV_ID`);
+  ADD CONSTRAINT `fk_yctb_ltb` FOREIGN KEY (`YCTB_IDLTB`) REFERENCES `loai_tb` (`LTB_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

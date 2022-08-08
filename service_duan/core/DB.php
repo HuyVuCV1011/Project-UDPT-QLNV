@@ -1,5 +1,6 @@
 <?php
 
+namespace ServiceDuAn\Core;
 /**
  * Class DB
  */
@@ -13,7 +14,7 @@ class DB
 
     protected $password = "";
 
-    protected $dbname = "qlnv_2";
+    protected $dbname = "qlnv_duan";
 
     public function __construct()
     {

@@ -1,5 +1,6 @@
 <?php
 
+namespace ServiceChamCong\Core;
 /**
  * Class Controller
  */
@@ -11,7 +12,7 @@ class Controller
      */
     public function model($model)
     {
-        require_once "./services/service3/models/".$model.".php";
+        require_once "./service_chamcong/models/".$model.".php";
         return new $model;
     }
 
@@ -22,7 +23,7 @@ class Controller
      */
     public function view($view, $data=[])
     {
-        require_once "./views/".$view.".php";
+        require_once "./views/admins/".$view.".php";
     }
 
     /**

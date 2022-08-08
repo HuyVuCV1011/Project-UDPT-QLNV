@@ -1,5 +1,6 @@
 <?php
 
+namespace ServiceThietBi\Core;
 /**
  * Class DB
  */
@@ -13,7 +14,7 @@ class DB
 
     protected $password = "";
 
-    protected $dbname = "qlnv_1";
+    protected $dbname = "qlnv_thietbi";
 
     public function __construct()
     {

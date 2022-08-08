@@ -1,5 +1,6 @@
 <?php
 
+namespace ServiceYeuCau\Core;
 /**
  * Class DB
  */
@@ -13,7 +14,7 @@ class DB
 
     protected $password = "";
 
-    protected $dbname = "qlnv_3";
+    protected $dbname = "qlnv_yeucau";
 
     public function __construct()
     {
