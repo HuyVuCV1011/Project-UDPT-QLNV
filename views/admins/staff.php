@@ -14,6 +14,7 @@
                         <th>Sđt</th>
                         <th>Phòng ban</th>
                         <th>Số ngày phép</th>
+                        <th>Chức năng</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -25,6 +26,7 @@
                         <th>Sđt</th>
                         <th>Phòng ban</th>
                         <th>Số ngày phép</th>
+                        <th>Chức năng</th>
                     </tr>
                 </tfoot>
                 <tbody>

@@ -1,6 +1,6 @@
 <?php
 
-namespace ServiceChamCong\Core;
+namespace ServiceBaiViet\Core;
 /**
  * Class Controller
  */
@@ -12,18 +12,8 @@ class Controller
      */
     public function model($model)
     {
-        require_once "./service_chamcong/models/".$model.".php";
+        require_once "./service_baiviet/models/".$model.".php";
         return new $model;
-    }
-
-    /**
-     * Gọi view.
-     * @param $view
-     * @param array $data
-     */
-    public function view($view, $data=[])
-    {
-        require_once "./views/admins/".$view.".php";
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-use ServiceChamCong\Core\Controller;
+use ServiceNhanVien\Core\Controller;
 /**
  * Class Auth
  */
@@ -8,7 +8,11 @@ class Auth extends Controller
 {
     public function execute()
     {
-        $this->view('login', []);
+        $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $res = explode("/", filter_var(trim($link, "/")));
+        if (!in_array($res[2], ['localhost:81', 'localhost:82', 'localhost:83', 'localhost:84'])) {
+            $this->view('login', []);
+        }
     }
 
     public function login()

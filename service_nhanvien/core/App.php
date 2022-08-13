@@ -1,6 +1,6 @@
 <?php
 
-namespace ServiceChamCong\Core;
+namespace ServiceNhanVien\Core;
 
 class App{
 
@@ -14,12 +14,12 @@ class App{
 
         // Controller
         if(!is_null($arr)) {
-            if(file_exists("./service_chamcong/controllers/".$arr[0].".php")){
+            if(file_exists("./service_nhanvien/controllers/".$arr[0].".php")){
                 $this->controller = $arr[0];
                 unset($arr[0]);
             }
         }
-        require_once "./service_chamcong/controllers/". $this->controller .".php";
+        require_once "./service_nhanvien/controllers/". $this->controller .".php";
         $this->controller = new $this->controller;
 
         // Action

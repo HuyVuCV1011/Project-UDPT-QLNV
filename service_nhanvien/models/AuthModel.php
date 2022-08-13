@@ -1,6 +1,6 @@
 <?php
 
-use ServiceChamCong\Core\DB;
+use ServiceNhanVien\Core\DB;
 /**
  * Class AuthModel
  */

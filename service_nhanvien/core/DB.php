@@ -1,6 +1,6 @@
 <?php
 
-namespace ServiceChamCong\Core;
+namespace ServiceNhanVien\Core;
 /**
  * Class DB
  */
@@ -14,7 +14,7 @@ class DB
 
     protected $password = "";
 
-    protected $dbname = "qlnv_chamcong";
+    protected $dbname = "qlnv_nhanvien";
 
     public function __construct()
     {
