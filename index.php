@@ -1,6 +1,6 @@
 <?php
-header('Access-Control-Allow-Origin: *');
 session_start();
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 require_once "./service_nhanvien/Bridge.php";
 require_once "./service_duan/Bridge.php";
 require_once "./service_thietbi/Bridge.php";

@@ -23,26 +23,6 @@
     <link href="./public/admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
-
-    <style>
-        /* Image preview */
-        .image-preview {
-            width: 300px;
-            min-height: 150px;
-            border: 2px solid #dddddd;
-            margin-top: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #cccccc;
-        }
-
-        .image-preview__image {
-            display: none;
-            width: 100%;
-        }
-    </style>
 </head>
 
 <body id="page-top">

@@ -1,4 +1,18 @@
 <!-- Nav Item - Pages Collapse Menu -->
+<li class="nav-item" id="checkin-checkout-menu">
+    <a class="nav-link" href="?url=shift">
+        <i class="fas fa-fw fa-table"></i>
+        <span>Check-in / Check-out</span>
+    </a>
+</li>
+<!-- Nav Item - Pages Collapse Menu -->
+<li class="nav-item" id="report-checkin-checkout-menu">
+    <a class="nav-link" href="?url=shift/report">
+        <i class="fas fa-fw fa-table"></i>
+        <span>Thống kê số giờ làm việc</span>
+    </a>
+</li>
+<!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item" id="staff-menu">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
         aria-controls="collapseTwo">
@@ -10,13 +24,6 @@
             <a class="collapse-item" href="?url=staff">Danh sách</a>
         </div>
     </div>
-</li>
-<!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item" id="checkin-checkout-menu">
-    <a class="nav-link" href="?url=shift">
-        <i class="fas fa-fw fa-table"></i>
-        <span>Check-in / Check-out</span>
-    </a>
 </li>
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item" id="ot-menu">

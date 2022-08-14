@@ -2,7 +2,7 @@
 
 use ServiceNhanVien\Core\Controller;
 /**
- * Class Auth
+ * Class Staff
  */
 class Staff extends Controller
 {

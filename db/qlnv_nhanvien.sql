@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2022 at 06:37 AM
+-- Generation Time: Aug 14, 2022 at 05:05 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `qlnv_chamcong`
+-- Database: `qlnv_nhanvien`
 --
 
 -- --------------------------------------------------------
@@ -58,7 +58,8 @@ INSERT INTO `cham_cong` (`CC_ID`, `CC_IDNV`, `CC_NGAY`, `CC_CHECKIN`, `CC_CHECKO
 (16, 'nv016', '2022-07-07', '2022-07-07 08:00:00', '2022-07-07 16:30:00'),
 (18, 'nv018', '2022-07-07', '2022-07-07 08:00:00', '2022-07-07 16:30:00'),
 (19, 'nv019', '2022-07-07', '2022-07-07 08:00:00', '2022-07-07 16:30:00'),
-(20, 'nv020', '2022-07-07', '2022-07-07 08:00:00', '2022-07-07 16:30:00');
+(20, 'nv020', '2022-07-07', '2022-07-07 08:00:00', '2022-07-07 16:30:00'),
+(21, 'nv001', '2022-08-14', '2022-08-14 17:05:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -188,6 +189,16 @@ ALTER TABLE `phong_ban`
 ALTER TABLE `quan_li`
   ADD KEY `fk_ql_nv` (`ID_QLI`),
   ADD KEY `fk_nv_nv` (`ID_NV`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `cham_cong`
+--
+ALTER TABLE `cham_cong`
+  MODIFY `CC_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints for dumped tables

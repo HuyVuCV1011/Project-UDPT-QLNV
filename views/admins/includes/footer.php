@@ -86,6 +86,7 @@
 <script src="./public/admin/js/article.js"></script>
 <script src="./public/admin/js/permission.js"></script>
 <script src="./public/admin/js/profile.js"></script>
+<script src="./public/admin/js/shift.js"></script>
 </body>
 
 </html>
