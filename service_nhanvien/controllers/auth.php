@@ -10,7 +10,9 @@ class Auth extends Controller
     {
         $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $res = explode("/", filter_var(trim($link, "/")));
-        if (!in_array($res[2], ['localhost:81', 'localhost:82', 'localhost:83', 'localhost:84'])) {
+        $urlArr = ['?url=ot', '?url=wfh', '?url=off'];
+        $hostArr = ['localhost:81', 'localhost:82', 'localhost:83', 'localhost:84'];
+        if (!in_array($res[2], $hostArr) && !in_array(@$res[4], $urlArr)) {
             $this->view('login', []);
         }
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2022 at 06:38 AM
+-- Generation Time: Aug 15, 2022 at 08:36 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -31,23 +31,26 @@ CREATE TABLE `yeu_cau_lam_viec_tai_nha` (
   `TN_ID` int(11) NOT NULL,
   `TN_IDNV` varchar(10) NOT NULL,
   `TN_LIDO` varchar(200) DEFAULT NULL,
-  `TN_DUYET` tinyint(1) DEFAULT NULL,
-  `TN_LIDOTUCHOI` varchar(200) DEFAULT NULL
+  `TN_DUYET` tinyint(1) DEFAULT 0,
+  `TN_LIDOTUCHOI` varchar(200) DEFAULT NULL,
+  `TN_IDNGUOIDUYET` varchar(10) DEFAULT NULL,
+  `TN_NGAYBD` date DEFAULT NULL,
+  `TN_NGAYKT` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `yeu_cau_lam_viec_tai_nha`
 --
 
-INSERT INTO `yeu_cau_lam_viec_tai_nha` (`TN_ID`, `TN_IDNV`, `TN_LIDO`, `TN_DUYET`, `TN_LIDOTUCHOI`) VALUES
-(1, 'nv001', 'Covid-19, kem xac nhan F0', 1, NULL),
-(2, 'nv003', 'Covid-19, kem xac nhan F0', 1, NULL),
-(3, 'nv005', 'Nha co viec', 0, 'Li do khong ro rang, yeu cau ghi ro li do'),
-(4, 'nv006', 'Covid-19', 0, 'khong co xac nhan F0, yeu cau cap nhat'),
-(5, 'nv010', 'Tai nan, kho khan trong viec di lai, kem xac nhan tu benh vien', 1, NULL),
-(6, 'nv011', 'Sot cao, dau hieu F0', 0, 'Yeu cau test F0 va gui xac nhan'),
-(7, 'nv015', 'Con trai dang bi om, can o nha cham soc', 1, NULL),
-(8, 'nv017', 'Ba me tu que len choi', 0, 'Ly do khong phu hop');
+INSERT INTO `yeu_cau_lam_viec_tai_nha` (`TN_ID`, `TN_IDNV`, `TN_LIDO`, `TN_DUYET`, `TN_LIDOTUCHOI`, `TN_IDNGUOIDUYET`, `TN_NGAYBD`, `TN_NGAYKT`) VALUES
+(1, 'nv017', 'Covid-19, kem xac nhan F0', 1, NULL, 'nv008', '2022-08-10', '2022-08-15'),
+(2, 'nv015', 'Covid-19, kem xac nhan F0', 1, NULL, 'nv008', '2022-08-09', '2022-08-11'),
+(3, 'nv005', 'Nha co viec', 2, 'Li do khong ro rang, yeu cau ghi ro li do', 'nv002', '2022-08-05', '2022-08-06'),
+(4, 'nv006', 'Covid-19', 2, 'khong co xac nhan F0, yeu cau cap nhat', 'nv003', '2022-08-01', '2022-08-03'),
+(5, 'nv010', 'Tai nan, kho khan trong viec di lai, kem xac nhan tu benh vien', 1, NULL, 'nv004', '2022-07-22', '2022-08-05'),
+(6, 'nv011', 'Sot cao, dau hieu F0', 2, 'Yeu cau test F0 va gui xac nhan', 'nv005', '2022-08-02', '2022-08-06'),
+(7, 'nv015', 'Con trai dang bi om, can o nha cham soc', 1, NULL, 'nv006', '2022-08-11', '2022-08-14'),
+(8, 'nv017', 'Ba me tu que len choi', 2, 'Ly do khong phu hop', 'nv008', '2022-08-07', '2022-08-08');
 
 -- --------------------------------------------------------
 
@@ -60,22 +63,24 @@ CREATE TABLE `yeu_cau_nghi_phep` (
   `NP_IDNV` varchar(10) NOT NULL,
   `NP_NGAYBD` date DEFAULT NULL,
   `NP_NGAYKT` date DEFAULT NULL,
-  `NP_LOAI` varchar(15) DEFAULT NULL,
+  `NP_LOAI` int(11) DEFAULT NULL,
   `NP_LIDO` varchar(200) DEFAULT NULL,
-  `NP_SONGAYCOLUONG` int(11) DEFAULT NULL,
-  `NP_LIDOTUCHOI` varchar(200) DEFAULT NULL
+  `NP_COLUONG` int(11) DEFAULT NULL,
+  `NP_LIDOTUCHOI` varchar(200) DEFAULT NULL,
+  `NP_DUYET` int(11) DEFAULT 0,
+  `NP_IDNGUOIDUYET` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `yeu_cau_nghi_phep`
 --
 
-INSERT INTO `yeu_cau_nghi_phep` (`NP_ID`, `NP_IDNV`, `NP_NGAYBD`, `NP_NGAYKT`, `NP_LOAI`, `NP_LIDO`, `NP_SONGAYCOLUONG`, `NP_LIDOTUCHOI`) VALUES
-(1, 'nv007', '2022-02-03', '2022-02-06', 'Nghi ca ngay', 'Covid-19, kem xac nhan F0', 4, NULL),
-(2, 'nv004', '2022-04-01', '2022-04-01', 'Nghi buoi sang', 'Xe bi hu', 11, NULL),
-(3, 'nv006', '2022-06-12', '2022-06-13', 'Nghi ca ngay', 'Covid-19, kem xac nhan F0', 9, NULL),
-(4, 'nv002', '2022-06-12', '2022-06-15', 'Nghi ca ngay', 'Tai nan, kho khan trong viec di lai, kem xac nhan tu benh vien', 8, NULL),
-(5, 'nv001', '2022-07-10', '2022-07-10', 'Nghi buoi chieu', 'Di du tiec', 7, 'Ly do khong ro rang');
+INSERT INTO `yeu_cau_nghi_phep` (`NP_ID`, `NP_IDNV`, `NP_NGAYBD`, `NP_NGAYKT`, `NP_LOAI`, `NP_LIDO`, `NP_COLUONG`, `NP_LIDOTUCHOI`, `NP_DUYET`, `NP_IDNGUOIDUYET`) VALUES
+(1, 'nv007', '2022-02-03', '2022-02-06', 0, 'Covid-19, kem xac nhan F0', 0, NULL, 1, 'nv001'),
+(2, 'nv004', '2022-04-01', '2022-04-01', 1, 'Xe bi hu', 1, NULL, 1, 'nv001'),
+(3, 'nv006', '2022-06-12', '2022-06-13', 2, 'Covid-19, kem xac nhan F0', 0, NULL, 1, 'nv003'),
+(4, 'nv014', '2022-06-12', '2022-06-15', 1, 'Tai nan, kho khan trong viec di lai, kem xac nhan tu benh vien', 0, NULL, 1, 'nv005'),
+(5, 'nv019', '2022-07-10', '2022-07-10', 0, 'Di du tiec', 1, 'Ly do khong ro rang', 2, 'nv007');
 
 -- --------------------------------------------------------
 
@@ -89,7 +94,7 @@ CREATE TABLE `yeu_cau_ot` (
   `OT_NGAY` date DEFAULT NULL,
   `OT_GIO` float DEFAULT NULL,
   `OT_LIDO` varchar(200) DEFAULT NULL,
-  `OT_DUYET` tinyint(1) DEFAULT NULL,
+  `OT_DUYET` tinyint(1) DEFAULT 0,
   `OT_IDNGUOIDUYET` varchar(10) NOT NULL,
   `OT_LIDOTUCHOI` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

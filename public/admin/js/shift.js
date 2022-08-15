@@ -208,7 +208,9 @@ function currentTime() {
       
      let time = hh + ":" + mm + ":" + ss + " " + session;
   
-    document.getElementById("clock").innerText = 'Giờ: ' + time; 
+    if (document.getElementById("clock")) {
+        document.getElementById("clock").innerText = 'Giờ: ' + time; 
+    }
     setTimeout(function(){ currentTime() }, 1000);
 }
   
