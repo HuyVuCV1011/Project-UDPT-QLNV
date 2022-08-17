@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2022 at 08:36 PM
+-- Generation Time: Aug 17, 2022 at 06:27 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -104,7 +104,7 @@ CREATE TABLE `yeu_cau_ot` (
 --
 
 INSERT INTO `yeu_cau_ot` (`OT_ID`, `OT_IDNV`, `OT_NGAY`, `OT_GIO`, `OT_LIDO`, `OT_DUYET`, `OT_IDNGUOIDUYET`, `OT_LIDOTUCHOI`) VALUES
-(1, 'nv005', '2022-02-03', 1, 'Van con cong viec chua hoan thanh', 1, 'nv002', NULL),
+(1, 'nv005', '2022-02-05', 3, 'Công việc chậm tiến độ', 1, 'nv002', NULL),
 (2, 'nv010', '2022-04-01', 3, 'Van con cong viec chua hoan thanh', 1, 'nv004', NULL),
 (3, 'nv006', '2022-06-12', 2, 'Van con cong viec chua hoan thanh', 1, 'nv003', NULL),
 (4, 'nv018', '2022-06-12', 2, 'Van con cong viec chua hoan thanh', 1, 'nv006', NULL),
@@ -131,6 +131,22 @@ ALTER TABLE `yeu_cau_nghi_phep`
 --
 ALTER TABLE `yeu_cau_ot`
   ADD PRIMARY KEY (`OT_ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `yeu_cau_lam_viec_tai_nha`
+--
+ALTER TABLE `yeu_cau_lam_viec_tai_nha`
+  MODIFY `TN_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `yeu_cau_ot`
+--
+ALTER TABLE `yeu_cau_ot`
+  MODIFY `OT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
