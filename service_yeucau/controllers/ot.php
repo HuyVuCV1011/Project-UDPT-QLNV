@@ -22,7 +22,7 @@ class Ot extends Controller
     public function addOt($id)
     {
         $model = $this->model('OtModel');
-        echo $model->addOt($id, $_POST['date'], $_POST['hour'], $_POST['content']);
+        echo $model->addOt($id, $_POST['date'], $_POST['hour'], $_POST['content'], $_POST['managerId']);
     }
 
     public function deleteOt($id)

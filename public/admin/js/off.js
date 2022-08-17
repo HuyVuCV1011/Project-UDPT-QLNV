@@ -55,6 +55,19 @@ $(document).ready(function() {
                                 {
                                     data: 'NP_IDNGUOIDUYET',
                                     name: 'NP_IDNGUOIDUYET'
+                                },
+                                {
+                                    data: 'NP_ID',
+                                    render: function(NP_ID) {
+                                        return `
+                                            <button class="btn btn-sm btn-primary" data-id="${NP_ID}" id="button-edit-off" data-toggle="modal" data-target="#edit-off">
+                                                <i class="fa fa-pen" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger" data-id="${NP_ID}" id="button-delete-off">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        `;
+                                    }
                                 }
                             ],
                             "aaSorting": []
@@ -103,6 +116,24 @@ $(document).ready(function() {
                         {
                             data: 'NP_IDNGUOIDUYET',
                             name: 'NP_IDNGUOIDUYET'
+                        },
+                        {
+                            data: 'NP_ID',
+                            render: function(NP_ID, type, row) {
+                                $('#button-add-off').hide();
+                                if (row['NP_DUYET'] == 'Chờ duyệt') {
+                                    return `
+                                    <button class="btn btn-sm btn-success" data-id="${NP_ID}" id="button-confirm-off">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" data-id="${NP_ID}" id="button-cancel-off" data-toggle="modal" data-target="#cancel-off">
+                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                    </button>
+                                `;
+                                } else {
+                                    return '';
+                                }
+                            }
                         }
                     ],
                     "aaSorting": []
@@ -127,6 +158,7 @@ $(document).ready(function() {
         var content = $('#add-off textarea[name="content"]').val();
         var type = $('#add-off select[name="type"]').val();
         var difference = startDate.getTime() - endDate.getTime();
+        var day = Math.abs(difference / (1000 * 3600 * 24));
         var message = '';
 
         if ($('#add-off input[name="start_date"]').val() > $('#add-off input[name="end_date"]').val()) {
@@ -145,28 +177,35 @@ $(document).ready(function() {
             return false;
         } else {
             $.ajax({
-                url: `${window.origin}:81/?url=off/addOff/${admin.NV_ID}`,
-                type: 'POST',
-                data: {
-                    start_date: [startYear, startMonth, startDay].join('-'),
-                    end_date: [endYear, endMonth, endDay].join('-'),
-                    content: content,
-                    day: Math.abs(difference / (1000 * 3600 * 24)),
-                    type: type
-                },
-                success: function(data) {
-                    if (data.success) {
-                        swal({
-                            title: 'Thêm thành công',
-                            type: 'success'
-                        });
-                        $('#add-off input[name="start_date"]').val('');
-                        $('#add-off input[name="end_date"]').val('');
-                        $('#add-off textarea[name="content"]').val('');
-                        $('#add-off').modal('hide');
-                        $('#dataTables-off').DataTable().ajax.reload();
-
-                    }
+                url: day <= 3 ? `${window.origin}${window.location.pathname}?url=staff/getManagerLevel1/${admin.NV_ID}` : `${window.origin}${window.location.pathname}?url=staff/getManagerLevel2/${admin.NV_ID}`,
+                type: 'GET',
+                success: function(res) {
+                    var response = JSON.parse(res);
+                    $.ajax({
+                        url: `${window.origin}:81/?url=off/addOff/${admin.NV_ID}`,
+                        type: 'POST',
+                        data: {
+                            managerId: response.ID_QL,
+                            start_date: [startYear, startMonth, startDay].join('-'),
+                            end_date: [endYear, endMonth, endDay].join('-'),
+                            content: content,
+                            type: type
+                        },
+                        success: function(data) {
+                            if (data.success) {
+                                swal({
+                                    title: 'Thêm thành công',
+                                    type: 'success'
+                                });
+                                $('#add-off input[name="start_date"]').val('');
+                                $('#add-off input[name="end_date"]').val('');
+                                $('#add-off textarea[name="content"]').val('');
+                                $('#add-off').modal('hide');
+                                $('#dataTables-off').DataTable().ajax.reload();
+        
+                            }
+                        }
+                    });
                 }
             });
         }
@@ -231,6 +270,7 @@ $(document).ready(function() {
         var type = $('#edit-off select[name="type"]').val();
         var message = '';
         var difference = startDate.getTime() - endDate.getTime();
+        var day = Math.abs(difference / (1000 * 3600 * 24));
 
         if ($('#edit-off input[name="start_date"]').val() > $('#edit-off input[name="end_date"]').val()) {
             message = 'Ngày bắt đầu không được lớn hơn ngày kết thúc';
@@ -249,24 +289,31 @@ $(document).ready(function() {
             return false;
         } else {
             $.ajax({
-                url: `${window.origin}:81/?url=off/updateOff/${id}`,
-                type: 'PUT',
-                data: {
-                    start_date: [startYear, startMonth, startDay].join('-'),
-                    end_date: [endYear, endMonth, endDay].join('-'),
-                    content: content,
-                    day: Math.abs(difference / (1000 * 3600 * 24)),
-                    type: type
-                },
-                success: function(response) {
-                    if (response.success) {
-                        swal({
-                            title: 'Cập nhật thành công',
-                            type: 'success'
-                        });
-                        $('#edit-off').modal('hide');
-                        $('#dataTables-off').DataTable().ajax.reload();
-                    }
+                url: day <= 3 ? `${window.origin}${window.location.pathname}?url=staff/getManagerLevel1/${admin.NV_ID}` : `${window.origin}${window.location.pathname}?url=staff/getManagerLevel2/${admin.NV_ID}`,
+                type: 'GET',
+                success: function(res) {
+                    var response = JSON.parse(res);
+                    $.ajax({
+                        url: `${window.origin}:81/?url=off/updateOff/${id}`,
+                        type: 'PUT',
+                        data: {
+                            managerId: response.ID_QL,
+                            start_date: [startYear, startMonth, startDay].join('-'),
+                            end_date: [endYear, endMonth, endDay].join('-'),
+                            content: content,
+                            type: type
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                swal({
+                                    title: 'Cập nhật thành công',
+                                    type: 'success'
+                                });
+                                $('#edit-off').modal('hide');
+                                $('#dataTables-off').DataTable().ajax.reload();
+                            }
+                        }
+                    });
                 }
             });
         }

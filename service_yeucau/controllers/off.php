@@ -22,7 +22,7 @@ class Off extends Controller
     public function addOff($id)
     {
         $model = $this->model('OffModel');
-        echo $model->addOff($id, $_POST['start_date'], $_POST['end_date'], $_POST['content'], $_POST['type']);
+        echo $model->addOff($id, $_POST['start_date'], $_POST['end_date'], $_POST['content'], $_POST['type'], $_POST['managerId']);
     }
 
     public function deleteOff($id)
@@ -40,7 +40,7 @@ class Off extends Controller
     public function updateOff($id)
     {
         $model = $this->model('OffModel');
-        echo $model->updateOff($id, $_POST['start_date'], $_POST['end_date'], $_POST['content'], $_POST['type']);
+        echo $model->updateOff($id, $_POST['start_date'], $_POST['end_date'], $_POST['content'], $_POST['type'], $_POST['managerId']);
     }
 
     public function updateOffStatus($id)

@@ -31,4 +31,16 @@ class StaffModel extends DB
         $sql = "SELECT a.*, b.PB_TEN FROM {$this->getTableName()} a, phong_ban b WHERE a.NV_PhongBan = b.PB_ID AND a.NV_ID = '{$id}'";
         return mysqli_fetch_assoc(mysqli_query($this->con, $sql));
     }
+
+    public function getManagerLevel1($id)
+    {
+        $sql = "SELECT ID_QLI FROM quan_li WHERE ID_NV = '{$id}'";
+        return mysqli_fetch_assoc(mysqli_query($this->con, $sql));
+    }
+
+    public function getManagerLevel2($id)
+    {
+        $sql = "SELECT ID_QLI FROM quan_li WHERE ID_NV IN (SELECT ID_QLI FROM quan_li WHERE ID_NV = '{$id}') limit 1";
+        return mysqli_fetch_assoc(mysqli_query($this->con, $sql));
+    }
 }

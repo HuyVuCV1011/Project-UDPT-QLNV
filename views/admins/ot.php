@@ -15,6 +15,7 @@
                         <th>Lý do từ chối</th>
                         <th>Trạng thái</th>
                         <th>Người duyệt</th>
+                        <th>Chức năng</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -26,6 +27,7 @@
                         <th>Lý do từ chối</th>
                         <th>Trạng thái</th>
                         <th>Người duyệt</th>
+                        <th>Chức năng</th>
                     </tr>
                 </tfoot>
                 <tbody>

@@ -47,6 +47,19 @@ $(document).ready(function() {
                                 {
                                     data: 'TN_IDNGUOIDUYET',
                                     name: 'TN_IDNGUOIDUYET'
+                                },
+                                {
+                                    data: 'TN_ID',
+                                    render: function(TN_ID) {
+                                        return `
+                                            <button class="btn btn-sm btn-primary" data-id="${TN_ID}" id="button-edit-wfh" data-toggle="modal" data-target="#edit-wfh">
+                                                <i class="fa fa-pen" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger" data-id="${TN_ID}" id="button-delete-wfh">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        `;
+                                    }
                                 }
                             ],
                             "aaSorting": []
@@ -87,6 +100,24 @@ $(document).ready(function() {
                         {
                             data: 'TN_IDNGUOIDUYET',
                             name: 'TN_IDNGUOIDUYET'
+                        },
+                        {
+                            data: 'TN_ID',
+                            render: function(TN_ID, type, row) {
+                                $('#button-add-wfh').hide();
+                                if (row['TN_DUYET'] == 'Chờ duyệt') {
+                                    return `
+                                    <button class="btn btn-sm btn-success" data-id="${TN_ID}" id="button-confirm-wfh">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" data-id="${TN_ID}" id="button-cancel-wfh" data-toggle="modal" data-target="#cancel-wfh">
+                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                    </button>
+                                `;
+                                } else {
+                                    return '';
+                                }
+                            }
                         }
                     ],
                     "aaSorting": []
@@ -127,26 +158,34 @@ $(document).ready(function() {
             return false;
         } else {
             $.ajax({
-                url: `${window.origin}:81/?url=wfh/addWfh/${admin.NV_ID}`,
-                type: 'POST',
-                data: {
-                    start_date: [startYear, startMonth, startDay].join('-'),
-                    end_date: [endYear, endMonth, endDay].join('-'),
-                    content: content
-                },
-                success: function(data) {
-                    if (data.success) {
-                        swal({
-                            title: 'Thêm thành công',
-                            type: 'success'
-                        });
-                        $('#add-wfh input[name="start_date"]').val('');
-                        $('#add-wfh input[name="end_date"]').val('');
-                        $('#add-wfh textarea[name="content"]').val('');
-                        $('#add-wfh').modal('hide');
-                        $('#dataTables-wfh').DataTable().ajax.reload();
-
-                    }
+                url: `${window.origin}${window.location.pathname}?url=staff/getManagerLevel1/${admin.NV_ID}`,
+                type: 'GET',
+                success: function(res) {
+                    var response = JSON.parse(res);
+                    $.ajax({
+                        url: `${window.origin}:81/?url=wfh/addWfh/${admin.NV_ID}`,
+                        type: 'POST',
+                        data: {
+                            managerId: response.ID_QL,
+                            start_date: [startYear, startMonth, startDay].join('-'),
+                            end_date: [endYear, endMonth, endDay].join('-'),
+                            content: content
+                        },
+                        success: function(data) {
+                            if (data.success) {
+                                swal({
+                                    title: 'Thêm thành công',
+                                    type: 'success'
+                                });
+                                $('#add-wfh input[name="start_date"]').val('');
+                                $('#add-wfh input[name="end_date"]').val('');
+                                $('#add-wfh textarea[name="content"]').val('');
+                                $('#add-wfh').modal('hide');
+                                $('#dataTables-wfh').DataTable().ajax.reload();
+        
+                            }
+                        }
+                    });
                 }
             });
         }

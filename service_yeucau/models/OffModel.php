@@ -32,28 +32,44 @@ class OffModel extends DB
         return ['data' => $data];
     }
 
-    public function addOff($id, $startDate, $endDate, $content, $type)
+    public function addOff($id, $startDate, $endDate, $content, $type, $managerId)
     {
-
+        $sql = "INSERT INTO {$this->getTableName()} (NP_IDNV, NP_NGAYBD, NP_NGAYKT, NP_LIDO, NP_LOAI, NP_IDNGUOIDUYET) VALUES ('{$id}', '{$startDate}', {$endDate}, '{$content}', {$type}, '{$managerId}')";
+        return mysqli_query($this->con, $sql);
     }
 
     public function deleteOff($id)
     {
-
+        $sql = "DELETE FROM {$this->getTableName()} WHERE NP_ID = {$id}";
+        return mysqli_query($this->con, $sql);
     }
 
     public function getOffById($id)
     {
-
+        $sql = "SELECT * FROM {$this->getTableName()} WHERE NP_ID = {$id}";
+        $result = mysqli_query($this->con, $sql);
+        return mysqli_fetch_assoc($result);
     }
 
-    public function updateOff($id, $startDate, $endDate, $content, $type)
+    public function updateOff($id, $startDate, $endDate, $content, $type, $managerId)
     {
-
+        $sql = "UPDATE {$this->getTableName()} 
+        SET NP_NGAYBD = '{$startDate}', NP_NGAYKT = '{$endDate}', NP_LIDO = '{$content}', NP_LOAI = {$type}, NP_IDNGUOIDUYET = '{$managerId}'
+        WHERE NP_ID = {$id}";
+        return mysqli_query($this->con, $sql);
     }
 
-    public function updateOffStatus($id, $status)
+    public function updateOffStatus($id, $status, $reason)
     {
-        
+        if ($status == 1) {
+            $sql = "UPDATE {$this->getTableName()} 
+            SET NP_DUYET = {$status}
+            WHERE NP_ID = {$id}";
+        } else {
+            $sql = "UPDATE {$this->getTableName()} 
+            SET NP_DUYET = {$status}, NP_LIDOTUCHOI = '{$reason}'
+            WHERE NP_ID = {$id}";
+        }
+        return mysqli_query($this->con, $sql); 
     }
 }

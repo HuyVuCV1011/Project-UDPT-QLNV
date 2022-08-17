@@ -29,28 +29,44 @@ class OtModel extends DB
         return ['data' => $data];
     }
 
-    public function addOt($id, $date, $hour, $content)
+    public function addOt($id, $date, $hour, $content, $managerId)
     {
-
+        $sql = "INSERT INTO {$this->getTableName()} (OT_IDNV, OT_NGAY, OT_GIO, OT_LIDO, OT_IDNGUOIDUYET) VALUES ('{$id}', '{$date}', {$hour}, '{$content}', '{$managerId}')";
+        return mysqli_query($this->con, $sql);
     }
 
     public function deleteOt($id)
     {
-
+        $sql = "DELETE FROM {$this->getTableName()} WHERE OT_ID = {$id}";
+        return mysqli_query($this->con, $sql);
     }
 
     public function getOtById($id)
     {
-
+        $sql = "SELECT * FROM {$this->getTableName()} WHERE OT_ID = {$id}";
+        $result = mysqli_query($this->con, $sql);
+        return mysqli_fetch_assoc($result);
     }
 
     public function updateOt($id, $date, $hour, $content)
     {
-
+        $sql = "UPDATE {$this->getTableName()} 
+        SET OT_NGAY = '{$date}', OT_GIO = {$hour}, OT_LIDO = '{$content}'
+        WHERE OT_ID = {$id}";
+        return mysqli_query($this->con, $sql);
     }
 
-    public function updateOtStatus($id, $status)
+    public function updateOtStatus($id, $status, $reason)
     {
-        
+        if ($status == 1) {
+            $sql = "UPDATE {$this->getTableName()} 
+            SET OT_DUYET = {$status}
+            WHERE OT_ID = {$id}";
+        } else {
+            $sql = "UPDATE {$this->getTableName()} 
+            SET OT_DUYET = {$status}, OT_LIDOTUCHOI = '{$reason}'
+            WHERE OT_ID = {$id}";
+        }
+        return mysqli_query($this->con, $sql);
     }
 }

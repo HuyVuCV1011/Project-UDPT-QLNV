@@ -22,7 +22,7 @@ class Wfh extends Controller
     public function addWfh($id)
     {
         $model = $this->model('WfhModel');
-        echo $model->addWfh($id, $_POST['start_date'], $_POST['end_date'], $_POST['content']);
+        echo $model->addWfh($id, $_POST['start_date'], $_POST['end_date'], $_POST['content'], $_POST['managerId']);
     }
 
     public function deleteWfh($id)

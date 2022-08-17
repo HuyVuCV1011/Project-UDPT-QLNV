@@ -47,6 +47,19 @@ $(document).ready(function() {
                                 {
                                     data: 'OT_IDNGUOIDUYET',
                                     name: 'OT_IDNGUOIDUYET'
+                                },
+                                {
+                                    data: 'OT_ID',
+                                    render: function(OT_ID) {
+                                        return `
+                                            <button class="btn btn-sm  btn-primary" data-id="${OT_ID}" id="button-edit-ot" data-toggle="modal" data-target="#edit-ot">
+                                                <i class="fa fa-pen" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-sm  btn-danger" data-id="${OT_ID}" id="button-delete-ot">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        `;
+                                    }
                                 }
                             ],
                             "aaSorting": []
@@ -87,6 +100,24 @@ $(document).ready(function() {
                         {
                             data: 'OT_IDNGUOIDUYET',
                             name: 'OT_IDNGUOIDUYET'
+                        },
+                        {
+                            data: 'OT_ID',
+                            render: function(OT_ID, type, row) {
+                                $('#button-add-ot').hide();
+                                if (row['OT_DUYET'] == 'Chờ duyệt') {
+                                    return `
+                                    <button class="btn btn-sm  btn-success" data-id="${OT_ID}" id="button-confirm-ot">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-sm  btn-danger" data-id="${OT_ID}" id="button-cancel-ot" data-toggle="modal" data-target="#cancel-ot">
+                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                    </button>
+                                `;
+                                } else {
+                                    return '';
+                                }
+                            }
                         }
                     ],
                     "aaSorting": []
@@ -124,26 +155,34 @@ $(document).ready(function() {
             return false;
         } else {
             $.ajax({
-                url: `${window.origin}:81/?url=ot/addOt/${admin.NV_ID}`,
-                type: 'POST',
-                data: {
-                    date: [year, month, day].join('-'),
-                    hour: hour,
-                    content: content
-                },
-                success: function(data) {
-                    if (data.success) {
-                        swal({
-                            title: 'Thêm thành công',
-                            type: 'success'
-                        });
-                        $('#add-ot input[name="date"]').val('');
-                        $('#add-ot input[name="hour"]').val('');
-                        $('#add-ot textarea[name="content"]').val('');
-                        $('#add-ot').modal('hide');
-                        $('#dataTables-ot').DataTable().ajax.reload();
-
-                    }
+                url: `${window.origin}${window.location.pathname}?url=staff/getManagerLevel1/${admin.NV_ID}`,
+                type: 'GET',
+                success: function(res) {
+                    var response = JSON.parse(res);
+                    $.ajax({
+                        url: `${window.origin}:81/?url=ot/addOt/${admin.NV_ID}`,
+                        type: 'POST',
+                        data: {
+                            managerId: response.ID_QL,
+                            date: [year, month, day].join('-'),
+                            hour: hour,
+                            content: content
+                        },
+                        success: function(data) {
+                            if (data.success) {
+                                swal({
+                                    title: 'Thêm thành công',
+                                    type: 'success'
+                                });
+                                $('#add-ot input[name="date"]').val('');
+                                $('#add-ot input[name="hour"]').val('');
+                                $('#add-ot textarea[name="content"]').val('');
+                                $('#add-ot').modal('hide');
+                                $('#dataTables-ot').DataTable().ajax.reload();
+        
+                            }
+                        }
+                    });
                 }
             });
         }

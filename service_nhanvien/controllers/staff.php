@@ -34,4 +34,16 @@ class Staff extends Controller
 
         echo json_encode($res);
     }
+
+    public function getManagerLevel1($id)
+    {
+        $model = $this->model('StaffModel');
+        echo json_encode($model->getManagerLevel1($id));
+    }
+
+    public function getManagerLevel2($id)
+    {
+        $model = $this->model('StaffModel');
+        echo json_encode($model->getManagerLevel2($id));
+    }
 }
