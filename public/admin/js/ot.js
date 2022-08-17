@@ -167,7 +167,7 @@ $(document).ready(function() {
                         url: `${window.origin}:81/?url=ot/addOt/${admin.NV_ID}`,
                         type: 'POST',
                         data: {
-                            managerId: response.ID_QL,
+                            managerId: response.ID_QLI,
                             date: [year, month, day].join('-'),
                             hour: hour,
                             content: content
@@ -175,14 +175,16 @@ $(document).ready(function() {
                         success: function(response) {
                             if (response) {
                                 swal({
-                                    title: 'Thêm thành công',
-                                    type: 'success'
+                                    title: "Thêm thành công",
+                                    type: "success",
+                                    showConfirmButton: true
+                                }).then(function() {
+                                    window.location.href = window.location.href;
                                 });
                                 $('#add-ot input[name="date"]').val('');
                                 $('#add-ot input[name="hour"]').val('');
                                 $('#add-ot textarea[name="content"]').val('');
                                 $('#add-ot').modal('hide');
-                                $('#dataTables-ot').DataTable().ajax.reload();
                             }
                         }
                     });
@@ -200,14 +202,16 @@ $(document).ready(function() {
 
         $.ajax({
             url: `${window.origin}:81/?url=ot/deleteOt/${id}`,
-            type: 'DELETE',
+            type: 'POST',
             success: function(response) {
                 if (response) {
                     swal({
-                        title: 'Xóa thành công',
-                        type: 'success'
+                        title: "Xóa thành công",
+                        type: "success",
+                        showConfirmButton: true
+                    }).then(function() {
+                        window.location.href = window.location.href;
                     });
-                    $('#dataTables-ot').DataTable().ajax.reload();
                 }
             }
         });
@@ -272,11 +276,13 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response) {
                         swal({
-                            title: 'Cập nhật thành công',
-                            type: 'success'
+                            title: "Cập nhật thành công",
+                            type: "success",
+                            showConfirmButton: true
+                        }).then(function() {
+                            window.location.href = window.location.href;
                         });
                         $('#edit-ot').modal('hide');
-                        $('#dataTables-ot').DataTable().ajax.reload();
                     }
                 }
             });
@@ -300,10 +306,12 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response) {
                         swal({
-                            title: 'Cập nhật thành công',
-                            type: 'success'
+                            title: "Cập nhật trạng thái thành công",
+                            type: "success",
+                            showConfirmButton: true
+                        }).then(function() {
+                            window.location.href = window.location.href;
                         });
-                        $('#dataTables-ot').DataTable().ajax.reload();
                     }
                 }
             });
@@ -341,11 +349,13 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response) {
                         swal({
-                            title: 'Cập nhật thành công',
-                            type: 'success'
+                            title: "Cập nhật trạng thái thành công",
+                            type: "success",
+                            showConfirmButton: true
+                        }).then(function() {
+                            window.location.href = window.location.href;
                         });
                         $('#cancel-ot').modal('hide');
-                        $('#dataTables-ot').DataTable().ajax.reload();
                     }
                 }
             });

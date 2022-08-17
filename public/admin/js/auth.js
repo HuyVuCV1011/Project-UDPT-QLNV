@@ -63,5 +63,6 @@ function logout()
 {
     localStorage.removeItem('token');
     localStorage.removeItem('admin');
+    localStorage.removeItem('managers');
     window.location.href = `${window.origin}${window.location.pathname}`;
 }

@@ -12,6 +12,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <form>
+                                <input type="hidden" name="id">
                                 <div class="form-group">
                                     <label for="start_date">Ngày bắt đầu: <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="start_date" name="start_date">

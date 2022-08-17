@@ -15,6 +15,9 @@ class OffModel extends DB
 
     public function getOffByStaff($id, $manager)
     {
+        if (!is_null($manager)) {
+            $managerArr = json_decode($manager);
+        }
         $sql = "SELECT * FROM {$this->getTableName()} WHERE NP_IDNV = '{$id}' ORDER BY NP_ID DESC";
         $result = mysqli_query($this->con, $sql);
         $data = [];
@@ -25,16 +28,22 @@ class OffModel extends DB
             $row['NP_LOAI'] = $row['NP_LOAI'] == 0 ? 'Nghỉ cả ngày' : ($row['NP_LOAI'] == 1 ? 'Nghỉ buổi sáng' : 'Nghỉ buổi chiều');
             $row['NP_DUYET'] = $row['NP_DUYET'] == 0 ? 'Chờ duyệt' : ($row['NP_DUYET'] == 1 ? 'Chấp nhận' : 'Từ chối');
             $row['NP_LIDOTUCHOI'] = is_null($row['NP_LIDOTUCHOI']) ? 'N/A' : $row['NP_LIDOTUCHOI'];
-            $row['NP_IDNGUOIDUYET'] = is_null($manager) ? $row['OT_IDNGUOIDUYET'] : $manager;
+            if (isset($managerArr)) {
+                foreach ($managerArr as $arr) {
+                    $newArr = explode('-', $arr);
+                    if ($row['NP_ID'] == $newArr[0]) {
+                        $row['NP_IDNGUOIDUYET'] = $newArr[1];
+                    }
+                }
+            }
             $data[] = $row;
         }
-
         return ['data' => $data];
     }
 
     public function addOff($id, $startDate, $endDate, $content, $type, $managerId)
     {
-        $sql = "INSERT INTO {$this->getTableName()} (NP_IDNV, NP_NGAYBD, NP_NGAYKT, NP_LIDO, NP_LOAI, NP_IDNGUOIDUYET) VALUES ('{$id}', '{$startDate}', {$endDate}, '{$content}', {$type}, '{$managerId}')";
+        $sql = "INSERT INTO {$this->getTableName()} (NP_IDNV, NP_NGAYBD, NP_NGAYKT, NP_LIDO, NP_LOAI, NP_IDNGUOIDUYET) VALUES ('{$id}', '{$startDate}', '{$endDate}', '{$content}', {$type}, '{$managerId}')";
         return mysqli_query($this->con, $sql);
     }
 

@@ -6,78 +6,92 @@ $(document).ready(function() {
         success: function(res1) {
             var response1 = JSON.parse(res1);
             if (response1.data.length) {
-                $.ajax({
-                    url: `${window.origin}${window.location.pathname}?url=staff/show/${response1.data[0].NP_IDNGUOIDUYET}`,
-                    type: 'GET',
-                    success: function(res2) {
-                        var response2 = JSON.parse(res2);
-                        $('#dataTables-off').DataTable({
-                            ajax: {
-                                'type': 'GET',
-                                'data': {
-                                    'manager': response2.NV_Ten
-                                },
-                                'url': `${window.origin}:81/?url=off/index/${admin.NV_ID}`
+                var managers = [];
+                var key = 0;
+                while (key < response1.data.length) {
+                    $.ajax({
+                        url: `${window.origin}${window.location.pathname}?url=staff/show/${response1.data[key].NP_IDNGUOIDUYET}`,
+                        data: {
+                            key: key
+                        },
+                        type: 'GET',
+                        success: function(res2) {
+                            var response2 = JSON.parse(res2);
+                            managers.push(`${response1.data[response2.key].NP_ID}-${response2.NV_Ten}`);
+                            localStorage.setItem('managers', JSON.stringify(managers));
+                        }
+                    });
+                    key+=1;
+                }
+
+                setTimeout(function(){
+                    var managerNews = localStorage.getItem('managers');
+                    $('#dataTables-off').DataTable({
+                        ajax: {
+                            'type': 'GET',
+                            'data': {
+                                'manager': managerNews
                             },
-                            columns: [
-                                {
-                                    data: 'NP_ID',
-                                    name: 'NP_ID'
-                                },
-                                {
-                                    data: 'NP_NGAYBD',
-                                    name: 'NP_NGAYBD'
-                                },
-                                {
-                                    data: 'NP_NGAYKT',
-                                    name: 'NP_NGAYKT'
-                                },
-                                {
-                                    data: 'NP_LOAI',
-                                    name: 'NP_LOAI'
-                                },
-                                {
-                                    data: 'NP_LIDO',
-                                    name: 'NP_LIDO'
-                                },
-                                {
-                                    data: 'NP_COLUONG',
-                                    name: 'NP_COLUONG'
-                                },
-                                {
-                                    data: 'NP_LIDOTUCHOI',
-                                    name: 'NP_LIDOTUCHOI'
-                                },
-                                {
-                                    data: 'NP_DUYET',
-                                    name: 'NP_DUYET'
-                                },
-                                {
-                                    data: 'NP_IDNGUOIDUYET',
-                                    name: 'NP_IDNGUOIDUYET'
-                                },
-                                {
-                                    data: 'NP_ID',
-                                    render: function(NP_ID, type, row) {
-                                        if (row['NP_DUYET'] == 'Chờ duyệt') {
-                                            return `
-                                                <button class="btn btn-sm btn-primary" data-id="${NP_ID}" id="button-edit-off" data-toggle="modal" data-target="#edit-off">
-                                                    <i class="fa fa-pen" aria-hidden="true"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-danger" data-id="${NP_ID}" id="button-delete-off">
-                                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                                </button>
-                                            `;
-                                        } else {
-                                            return '';
-                                        }
+                            'url': `${window.origin}:81/?url=off/index/${admin.NV_ID}`
+                        },
+                        columns: [
+                            {
+                                data: 'NP_ID',
+                                name: 'NP_ID'
+                            },
+                            {
+                                data: 'NP_NGAYBD',
+                                name: 'NP_NGAYBD'
+                            },
+                            {
+                                data: 'NP_NGAYKT',
+                                name: 'NP_NGAYKT'
+                            },
+                            {
+                                data: 'NP_LOAI',
+                                name: 'NP_LOAI'
+                            },
+                            {
+                                data: 'NP_LIDO',
+                                name: 'NP_LIDO'
+                            },
+                            {
+                                data: 'NP_COLUONG',
+                                name: 'NP_COLUONG'
+                            },
+                            {
+                                data: 'NP_LIDOTUCHOI',
+                                name: 'NP_LIDOTUCHOI'
+                            },
+                            {
+                                data: 'NP_DUYET',
+                                name: 'NP_DUYET'
+                            },
+                            {
+                                data: 'NP_IDNGUOIDUYET',
+                                name: 'NP_IDNGUOIDUYET'
+                            },
+                            {
+                                data: 'NP_ID',
+                                render: function(NP_ID, type, row) {
+                                    if (row['NP_DUYET'] == 'Chờ duyệt') {
+                                        return `
+                                            <button class="btn btn-sm btn-primary" data-id="${NP_ID}" id="button-edit-off" data-toggle="modal" data-target="#edit-off">
+                                                <i class="fa fa-pen" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger" data-id="${NP_ID}" id="button-delete-off">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        `;
+                                    } else {
+                                        return '';
                                     }
                                 }
-                            ],
-                            "aaSorting": []
-                        });
-                    }
-                });
+                            }
+                        ],
+                        "aaSorting": []
+                    });
+                },500);
             } else {
                 $('#dataTables-off').DataTable({
                     ajax: {
@@ -189,7 +203,7 @@ $(document).ready(function() {
                         url: `${window.origin}:81/?url=off/addOff/${admin.NV_ID}`,
                         type: 'POST',
                         data: {
-                            managerId: response.ID_QL,
+                            managerId: response.ID_QLI,
                             start_date: [startYear, startMonth, startDay].join('-'),
                             end_date: [endYear, endMonth, endDay].join('-'),
                             content: content,
@@ -198,15 +212,16 @@ $(document).ready(function() {
                         success: function(response) {
                             if (response) {
                                 swal({
-                                    title: 'Thêm thành công',
-                                    type: 'success'
+                                    title: "Thêm thành công",
+                                    type: "success",
+                                    showConfirmButton: true
+                                }).then(function() {
+                                    window.location.href = window.location.href;
                                 });
                                 $('#add-off input[name="start_date"]').val('');
                                 $('#add-off input[name="end_date"]').val('');
                                 $('#add-off textarea[name="content"]').val('');
                                 $('#add-off').modal('hide');
-                                $('#dataTables-off').DataTable().ajax.reload();
-        
                             }
                         }
                     });
@@ -224,14 +239,16 @@ $(document).ready(function() {
 
         $.ajax({
             url: `${window.origin}:81/?url=off/deleteOff/${id}`,
-            type: 'DELETE',
+            type: 'POST',
             success: function(response) {
                 if (response) {
                     swal({
-                        title: 'Xóa thành công',
-                        type: 'success'
+                        title: "Xóa thành công",
+                        type: "success",
+                        showConfirmButton: true
+                    }).then(function() {
+                        window.location.href = window.location.href;
                     });
-                    $('#dataTables-off').DataTable().ajax.reload();
                 }
             }
         });
@@ -300,7 +317,7 @@ $(document).ready(function() {
                         url: `${window.origin}:81/?url=off/updateOff/${id}`,
                         type: 'POST',
                         data: {
-                            managerId: response.ID_QL,
+                            managerId: response.ID_QLI,
                             start_date: [startYear, startMonth, startDay].join('-'),
                             end_date: [endYear, endMonth, endDay].join('-'),
                             content: content,
@@ -309,11 +326,13 @@ $(document).ready(function() {
                         success: function(response) {
                             if (response) {
                                 swal({
-                                    title: 'Cập nhật thành công',
-                                    type: 'success'
+                                    title: "Cập nhật thành công",
+                                    type: "success",
+                                    showConfirmButton: true
+                                }).then(function() {
+                                    window.location.href = window.location.href;
                                 });
                                 $('#edit-off').modal('hide');
-                                $('#dataTables-off').DataTable().ajax.reload();
                             }
                         }
                     });
@@ -334,10 +353,12 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response) {
                         swal({
-                            title: 'Cập nhật thành công',
-                            type: 'success'
+                            title: "Cập nhật trạng thái thành công",
+                            type: "success",
+                            showConfirmButton: true
+                        }).then(function() {
+                            window.location.href = window.location.href;
                         });
-                        $('#dataTables-off').DataTable().ajax.reload();
                     }
                 }
             });
@@ -375,11 +396,13 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response) {
                         swal({
-                            title: 'Cập nhật thành công',
-                            type: 'success'
+                            title: "Cập nhật trạng thái thành công",
+                            type: "success",
+                            showConfirmButton: true
+                        }).then(function() {
+                            window.location.href = window.location.href;
                         });
                         $('#cancel-off').modal('hide');
-                        $('#dataTables-off').DataTable().ajax.reload();
                     }
                 }
             });

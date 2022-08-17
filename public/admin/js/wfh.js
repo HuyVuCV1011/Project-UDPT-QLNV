@@ -170,7 +170,7 @@ $(document).ready(function() {
                         url: `${window.origin}:81/?url=wfh/addWfh/${admin.NV_ID}`,
                         type: 'POST',
                         data: {
-                            managerId: response.ID_QL,
+                            managerId: response.ID_QLI,
                             start_date: [startYear, startMonth, startDay].join('-'),
                             end_date: [endYear, endMonth, endDay].join('-'),
                             content: content
@@ -178,15 +178,16 @@ $(document).ready(function() {
                         success: function(response) {
                             if (response) {
                                 swal({
-                                    title: 'Thêm thành công',
-                                    type: 'success'
+                                    title: "Thêm thành công",
+                                    type: "success",
+                                    showConfirmButton: true
+                                }).then(function() {
+                                    window.location.href = window.location.href;
                                 });
                                 $('#add-wfh input[name="start_date"]').val('');
                                 $('#add-wfh input[name="end_date"]').val('');
                                 $('#add-wfh textarea[name="content"]').val('');
                                 $('#add-wfh').modal('hide');
-                                $('#dataTables-wfh').DataTable().ajax.reload();
-        
                             }
                         }
                     });
@@ -204,17 +205,19 @@ $(document).ready(function() {
 
         $.ajax({
             url: `${window.origin}:81/?url=wfh/deleteWfh/${id}`,
-            type: 'DELETE',
+            type: 'POST',
             data: {
                 id: id
             },
             success: function(response) {
                 if (response) {
                     swal({
-                        title: 'Xóa thành công',
-                        type: 'success'
+                        title: "Xóa thành công",
+                        type: "success",
+                        showConfirmButton: true
+                    }).then(function() {
+                        window.location.href = window.location.href;
                     });
-                    $('#dataTables-wfh').DataTable().ajax.reload();
                 }
             }
         });
@@ -283,11 +286,13 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response) {
                         swal({
-                            title: 'Cập nhật thành công',
-                            type: 'success'
+                            title: "Cập nhật thành công",
+                            type: "success",
+                            showConfirmButton: true
+                        }).then(function() {
+                            window.location.href = window.location.href;
                         });
                         $('#edit-wfh').modal('hide');
-                        $('#dataTables-wfh').DataTable().ajax.reload();
                     }
                 }
             });
@@ -306,10 +311,12 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response) {
                         swal({
-                            title: 'Cập nhật thành công',
-                            type: 'success'
+                            title: "Cập nhật trạng thái thành công",
+                            type: "success",
+                            showConfirmButton: true
+                        }).then(function() {
+                            window.location.href = window.location.href;
                         });
-                        $('#dataTables-wfh').DataTable().ajax.reload();
                     }
                 }
             });
@@ -347,11 +354,13 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response) {
                         swal({
-                            title: 'Cập nhật thành công',
-                            type: 'success'
+                            title: "Cập nhật trạng thái thành công",
+                            type: "success",
+                            showConfirmButton: true
+                        }).then(function() {
+                            window.location.href = window.location.href;
                         });
                         $('#cancel-wfh').modal('hide');
-                        $('#dataTables-wfh').DataTable().ajax.reload();
                     }
                 }
             });
