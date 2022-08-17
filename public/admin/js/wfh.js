@@ -50,15 +50,19 @@ $(document).ready(function() {
                                 },
                                 {
                                     data: 'TN_ID',
-                                    render: function(TN_ID) {
-                                        return `
-                                            <button class="btn btn-sm btn-primary" data-id="${TN_ID}" id="button-edit-wfh" data-toggle="modal" data-target="#edit-wfh">
-                                                <i class="fa fa-pen" aria-hidden="true"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger" data-id="${TN_ID}" id="button-delete-wfh">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </button>
-                                        `;
+                                    render: function(TN_ID, type, row) {
+                                        if (row['TN_DUYET'] == 'Chờ duyệt') {
+                                            return `
+                                                <button class="btn btn-sm btn-primary" data-id="${TN_ID}" id="button-edit-wfh" data-toggle="modal" data-target="#edit-wfh">
+                                                    <i class="fa fa-pen" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" data-id="${TN_ID}" id="button-delete-wfh">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                            `;
+                                        } else {
+                                            return '';
+                                        }
                                     }
                                 }
                             ],
@@ -171,8 +175,8 @@ $(document).ready(function() {
                             end_date: [endYear, endMonth, endDay].join('-'),
                             content: content
                         },
-                        success: function(data) {
-                            if (data.success) {
+                        success: function(response) {
+                            if (response) {
                                 swal({
                                     title: 'Thêm thành công',
                                     type: 'success'
@@ -205,7 +209,7 @@ $(document).ready(function() {
                 id: id
             },
             success: function(response) {
-                if (response.success) {
+                if (response) {
                     swal({
                         title: 'Xóa thành công',
                         type: 'success'
@@ -224,13 +228,12 @@ $(document).ready(function() {
         $.ajax({
             url: `${window.origin}:81/?url=wfh/getWfhById/${id}`,
             type: 'GET',
-            success: function(response) {
-                if (response.success) {
-                    $('#edit-wfh input[name="id"]').val(response.data.id);
-                    $('#edit-wfh input[name="start_date"]').val(response.data.start_date);
-                    $('#edit-wfh input[name="end_date"]').val(response.data.end_date);
-                    $('#edit-wfh textarea[name="content"]').val(response.data.content);
-                }
+            success: function(res) {
+                var response = JSON.parse(res);
+                $('#edit-wfh input[name="id"]').val(response.TN_ID);
+                $('#edit-wfh input[name="start_date"]').val(response.TN_NGAYBD);
+                $('#edit-wfh input[name="end_date"]').val(response.TN_NGAYKT);
+                $('#edit-wfh textarea[name="content"]').val(response.TN_LIDO);
             }
         });
     });
@@ -270,7 +273,7 @@ $(document).ready(function() {
         } else {
             $.ajax({
                 url: `${window.origin}:81/?url=wfh/updateWfh/${id}`,
-                type: 'PUT',
+                type: 'POST',
                 data: {
                     id: id,
                     start_date: [startYear, startMonth, startDay].join('-'),
@@ -278,7 +281,7 @@ $(document).ready(function() {
                     content: content
                 },
                 success: function(response) {
-                    if (response.success) {
+                    if (response) {
                         swal({
                             title: 'Cập nhật thành công',
                             type: 'success'
@@ -296,12 +299,12 @@ $(document).ready(function() {
         if (confirm('Bạn có muốn xác nhận yêu cầu này ?') === true) {
             $.ajax({
                 url: `${window.origin}:81/?url=wfh/updateWfhStatus/${id}`,
-                type: 'PUT',
+                type: 'POST',
                 data: {
                     status: 1
                 },
                 success: function(response) {
-                    if (response.success) {
+                    if (response) {
                         swal({
                             title: 'Cập nhật thành công',
                             type: 'success'
@@ -336,13 +339,13 @@ $(document).ready(function() {
         } else {
             $.ajax({
                 url: `${window.origin}:81/?url=wfh/updateWfhStatus/${id}`,
-                type: 'PUT',
+                type: 'POST',
                 data: {
                     reason: reason,
                     status: 2
                 },
                 success: function(response) {
-                    if (response.success) {
+                    if (response) {
                         swal({
                             title: 'Cập nhật thành công',
                             type: 'success'

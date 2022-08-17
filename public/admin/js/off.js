@@ -58,15 +58,19 @@ $(document).ready(function() {
                                 },
                                 {
                                     data: 'NP_ID',
-                                    render: function(NP_ID) {
-                                        return `
-                                            <button class="btn btn-sm btn-primary" data-id="${NP_ID}" id="button-edit-off" data-toggle="modal" data-target="#edit-off">
-                                                <i class="fa fa-pen" aria-hidden="true"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger" data-id="${NP_ID}" id="button-delete-off">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </button>
-                                        `;
+                                    render: function(NP_ID, type, row) {
+                                        if (row['NP_DUYET'] == 'Chờ duyệt') {
+                                            return `
+                                                <button class="btn btn-sm btn-primary" data-id="${NP_ID}" id="button-edit-off" data-toggle="modal" data-target="#edit-off">
+                                                    <i class="fa fa-pen" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" data-id="${NP_ID}" id="button-delete-off">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                            `;
+                                        } else {
+                                            return '';
+                                        }
                                     }
                                 }
                             ],
@@ -191,8 +195,8 @@ $(document).ready(function() {
                             content: content,
                             type: type
                         },
-                        success: function(data) {
-                            if (data.success) {
+                        success: function(response) {
+                            if (response) {
                                 swal({
                                     title: 'Thêm thành công',
                                     type: 'success'
@@ -222,7 +226,7 @@ $(document).ready(function() {
             url: `${window.origin}:81/?url=off/deleteOff/${id}`,
             type: 'DELETE',
             success: function(response) {
-                if (response.success) {
+                if (response) {
                     swal({
                         title: 'Xóa thành công',
                         type: 'success'
@@ -241,13 +245,12 @@ $(document).ready(function() {
         $.ajax({
             url: `${window.origin}:81/?url=off/getOffById/${id}`,
             type: 'GET',
-            success: function(response) {
-                if (response.success) {
-                    $('#edit-off input[name="id"]').val(response.data.id);
-                    $('#edit-off input[name="start_date"]').val(response.data.start_date);
-                    $('#edit-off input[name="end_date"]').val(response.data.end_date);
-                    $('#edit-off textarea[name="content"]').val(response.data.content);
-                }
+            success: function(res) {
+                var response = JSON.parse(res);
+                $('#edit-off input[name="id"]').val(response.NP_ID);
+                $('#edit-off input[name="start_date"]').val(response.NP_NGAYBD);
+                $('#edit-off input[name="end_date"]').val(response.NP_NGAYKT);
+                $('#edit-off textarea[name="content"]').val(response.NP_LIDO);
             }
         });
     });
@@ -295,7 +298,7 @@ $(document).ready(function() {
                     var response = JSON.parse(res);
                     $.ajax({
                         url: `${window.origin}:81/?url=off/updateOff/${id}`,
-                        type: 'PUT',
+                        type: 'POST',
                         data: {
                             managerId: response.ID_QL,
                             start_date: [startYear, startMonth, startDay].join('-'),
@@ -304,7 +307,7 @@ $(document).ready(function() {
                             type: type
                         },
                         success: function(response) {
-                            if (response.success) {
+                            if (response) {
                                 swal({
                                     title: 'Cập nhật thành công',
                                     type: 'success'
@@ -324,12 +327,12 @@ $(document).ready(function() {
         if (confirm('Bạn có muốn xác nhận yêu cầu này ?') === true) {
             $.ajax({
                 url: `${window.origin}:81/?url=off/updateOffStatus/${id}`,
-                type: 'PUT',
+                type: 'POST',
                 data: {
                     status: 1
                 },
                 success: function(response) {
-                    if (response.success) {
+                    if (response) {
                         swal({
                             title: 'Cập nhật thành công',
                             type: 'success'
@@ -364,13 +367,13 @@ $(document).ready(function() {
         } else {
             $.ajax({
                 url: `${window.origin}:81/?url=off/updateOffStatus/${id}`,
-                type: 'PUT',
+                type: 'POST',
                 data: {
                     reason: reason,
                     status: 2
                 },
                 success: function(response) {
-                    if (response.success) {
+                    if (response) {
                         swal({
                             title: 'Cập nhật thành công',
                             type: 'success'

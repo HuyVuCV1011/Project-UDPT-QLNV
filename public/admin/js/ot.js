@@ -50,15 +50,19 @@ $(document).ready(function() {
                                 },
                                 {
                                     data: 'OT_ID',
-                                    render: function(OT_ID) {
-                                        return `
-                                            <button class="btn btn-sm  btn-primary" data-id="${OT_ID}" id="button-edit-ot" data-toggle="modal" data-target="#edit-ot">
-                                                <i class="fa fa-pen" aria-hidden="true"></i>
-                                            </button>
-                                            <button class="btn btn-sm  btn-danger" data-id="${OT_ID}" id="button-delete-ot">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </button>
-                                        `;
+                                    render: function(OT_ID, type, row) {
+                                        if (row['OT_DUYET'] == 'Chờ duyệt') {
+                                            return `
+                                                <button class="btn btn-sm  btn-primary" data-id="${OT_ID}" id="button-edit-ot" data-toggle="modal" data-target="#edit-ot">
+                                                    <i class="fa fa-pen" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="btn btn-sm  btn-danger" data-id="${OT_ID}" id="button-delete-ot">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                            `;
+                                        } else {
+                                            return '';
+                                        }
                                     }
                                 }
                             ],
@@ -168,8 +172,8 @@ $(document).ready(function() {
                             hour: hour,
                             content: content
                         },
-                        success: function(data) {
-                            if (data.success) {
+                        success: function(response) {
+                            if (response) {
                                 swal({
                                     title: 'Thêm thành công',
                                     type: 'success'
@@ -179,7 +183,6 @@ $(document).ready(function() {
                                 $('#add-ot textarea[name="content"]').val('');
                                 $('#add-ot').modal('hide');
                                 $('#dataTables-ot').DataTable().ajax.reload();
-        
                             }
                         }
                     });
@@ -199,7 +202,7 @@ $(document).ready(function() {
             url: `${window.origin}:81/?url=ot/deleteOt/${id}`,
             type: 'DELETE',
             success: function(response) {
-                if (response.success) {
+                if (response) {
                     swal({
                         title: 'Xóa thành công',
                         type: 'success'
@@ -218,13 +221,12 @@ $(document).ready(function() {
         $.ajax({
             url: `${window.origin}:81/?url=ot/getOtById/${id}`,
             type: 'GET',
-            success: function(response) {
-                if (response.success) {
-                    $('#edit-ot input[name="id"]').val(response.data.id);
-                    $('#edit-ot input[name="date"]').val(response.data.date);
-                    $('#edit-ot input[name="hour"]').val(response.data.hour);
-                    $('#edit-ot textarea[name="content"]').val(response.data.content);
-                }
+            success: function(res) {
+                var response = JSON.parse(res);
+                $('#edit-ot input[name="id"]').val(response.OT_ID);
+                $('#edit-ot input[name="date"]').val(response.OT_NGAY);
+                $('#edit-ot input[name="hour"]').val(response.OT_GIO);
+                $('#edit-ot textarea[name="content"]').val(response.OT_LIDO);
             }
         });
     });
@@ -261,14 +263,14 @@ $(document).ready(function() {
         } else {
             $.ajax({
                 url: `${window.origin}:81/?url=ot/updateOt/${id}`,
-                type: 'PUT',
+                type: 'POST',
                 data: {
                     date: [year, month, day].join('-'),
                     hour: hour,
                     content: content
                 },
                 success: function(response) {
-                    if (response.success) {
+                    if (response) {
                         swal({
                             title: 'Cập nhật thành công',
                             type: 'success'
@@ -286,7 +288,7 @@ $(document).ready(function() {
         if (confirm('Bạn có muốn xác nhận yêu cầu này ?') === true) {
             $.ajax({
                 url: `${window.origin}:81/?url=ot/updateOtStatus/${id}`,
-                type: 'PUT',
+                type: 'POST',
                 data: {
                     id: id,
                     status: 1
@@ -296,7 +298,7 @@ $(document).ready(function() {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
                 success: function(response) {
-                    if (response.success) {
+                    if (response) {
                         swal({
                             title: 'Cập nhật thành công',
                             type: 'success'
@@ -331,13 +333,13 @@ $(document).ready(function() {
         } else {
             $.ajax({
                 url: `${window.origin}:81/?url=ot/updateOtStatus/${id}`,
-                type: 'PUT',
+                type: 'POST',
                 data: {
                     reason: reason,
                     status: 2
                 },
                 success: function(response) {
-                    if (response.success) {
+                    if (response) {
                         swal({
                             title: 'Cập nhật thành công',
                             type: 'success'
