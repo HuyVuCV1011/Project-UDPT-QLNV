@@ -32,7 +32,7 @@ class WfhModel extends DB
 
     public function addWfh($id, $startDate, $endDate, $content, $managerId)
     {
-        $sql = "INSERT INTO {$this->getTableName()} (TN_IDNV, TN_NGAYBD, TN_NGAYKT, TN_LIDO, TN_IDNGUOIDUYET) VALUES ('{$id}', '{$startDate}', {$endDate}, '{$content}', '{$managerId}')";
+        $sql = "INSERT INTO {$this->getTableName()} (TN_IDNV, TN_NGAYBD, TN_NGAYKT, TN_LIDO, TN_IDNGUOIDUYET) VALUES ('{$id}', '{$startDate}', '{$endDate}', '{$content}', '{$managerId}')";
         return mysqli_query($this->con, $sql);
     }
 
