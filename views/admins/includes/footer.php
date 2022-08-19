@@ -38,7 +38,6 @@
 <?php include "./views/admins/modals/wfh_edit.php" ?>
 <?php include "./views/admins/modals/wfh_cancel.php" ?>
 <?php include "./views/admins/modals/staff_detail.php" ?>
-<?php include "./views/admins/modals/article_detail.php" ?>
 <!-- Bootstrap core JavaScript-->
 <script src="./public/admin/vendor/jquery/jquery.min.js"></script>
 <script src="./public/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
