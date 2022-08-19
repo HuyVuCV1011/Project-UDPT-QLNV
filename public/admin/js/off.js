@@ -94,6 +94,7 @@ $(document).ready(function() {
                 },500);
             } else {
                 $('#staff-off').html('Người làm đơn');
+                $('#button-add-off').hide();
                 $.ajax({
                     url: `${window.origin}:81/?url=off/getOffByManager/${admin.NV_ID}`,
                     type: 'GET',

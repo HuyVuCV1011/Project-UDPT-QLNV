@@ -72,6 +72,7 @@ $(document).ready(function() {
                 });
             } else {
                 $('#staff-ot').html('Người làm đơn');
+                $('#button-add-ot').hide();
                 $.ajax({
                     url: `${window.origin}:81/?url=ot/getOtByManager/${admin.NV_ID}`,
                     type: 'GET',

@@ -72,6 +72,7 @@ $(document).ready(function() {
                 });
             } else {
                 $('#staff-wfh').html('Người làm đơn');
+                $('#button-add-wfh').hide();
                 $.ajax({
                     url: `${window.origin}:81/?url=wfh/getWfhByManager/${admin.NV_ID}`,
                     type: 'GET',
