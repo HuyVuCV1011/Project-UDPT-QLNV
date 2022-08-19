@@ -46,6 +46,14 @@ class Ot extends Controller
     public function updateOtStatus($id)
     {
         $model = $this->model('OtModel'); 
-        echo $model->updateOtStatus($id, $_POST['status']); 
+        echo $model->updateOtStatus($id, $_POST['status'], isset($_POST['reason']) ? $_POST['reason'] : null); 
+    }
+
+    public function getOtByManager($id)
+    {
+        $model = $this->model('OtModel');
+        $res = $model->getOtByManager($id, isset($_GET['staff']) ? $_GET['staff'] : null);
+
+        echo json_encode($res);
     }
 }

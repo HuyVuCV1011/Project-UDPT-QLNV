@@ -14,22 +14,10 @@
                         <th>Lý do làm việc tại nhà</th>
                         <th>Lý do từ chối</th>
                         <th>Trạng thái</th>
-                        <th>Người duyệt</th>
+                        <th id="staff-wfh">Người duyệt</th>
                         <th>Chức năng</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>#</th>
-                        <th>Ngày bắt đầu</th>
-                        <th>Ngày kết thúc</th>
-                        <th>Lý do làm việc tại nhà</th>
-                        <th>Lý do từ chối</th>
-                        <th>Trạng thái</th>
-                        <th>Người duyệt</th>
-                        <th>Chức năng</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                 </tbody>
             </table>

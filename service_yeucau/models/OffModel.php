@@ -81,4 +81,33 @@ class OffModel extends DB
         }
         return mysqli_query($this->con, $sql); 
     }
+
+    public function getOffByManager($id, $staff)
+    {
+        if (!is_null($staff)) {
+            $staffArr = json_decode($staff);
+        }
+        $sql = "SELECT * FROM {$this->getTableName()} WHERE NP_IDNV = '{$id}' ORDER BY NP_ID DESC";
+        $result = mysqli_query($this->con, $sql);
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $row['NP_NGAYBD'] = date('d/m/Y', strtotime($row['NP_NGAYBD']));
+            $row['NP_NGAYKT'] = date('d/m/Y', strtotime($row['NP_NGAYKT']));
+            $row['NP_COLUONG'] = $row['NP_COLUONG'] == 0 ? 'Nghỉ không lương' : 'Nghỉ có lương';
+            $row['NP_LOAI'] = $row['NP_LOAI'] == 0 ? 'Nghỉ cả ngày' : ($row['NP_LOAI'] == 1 ? 'Nghỉ buổi sáng' : 'Nghỉ buổi chiều');
+            $row['NP_DUYET'] = $row['NP_DUYET'] == 0 ? 'Chờ duyệt' : ($row['NP_DUYET'] == 1 ? 'Chấp nhận' : 'Từ chối');
+            $row['NP_LIDOTUCHOI'] = is_null($row['NP_LIDOTUCHOI']) ? 'N/A' : $row['NP_LIDOTUCHOI'];
+            if (isset($staffArr)) {
+                foreach ($staffArr as $arr) {
+                    $newArr = explode('-', $arr);
+                    if ($row['NP_ID'] == $newArr[0]) {
+                        $row['NP_IDNV'] = $newArr[1];
+                    }
+                }
+            }
+            $data[] = $row;
+        }
+
+        return ['data' => $data];
+    }
 }

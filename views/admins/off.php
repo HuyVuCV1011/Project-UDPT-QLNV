@@ -16,24 +16,10 @@
                         <th>Loại phép</th>
                         <th>Lý do từ chối</th>
                         <th>Trạng thái</th>
-                        <th>Người duyệt</th>
+                        <th id="staff-off">Người duyệt</th>
                         <th>Chức năng</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>#</th>
-                        <th>Ngày bắt đầu</th>
-                        <th>Ngày kết thúc</th>
-                        <th>Hình thức nghỉ</th>
-                        <th>Lý do nghỉ</th>
-                        <th>Loại phép</th>
-                        <th>Lý do từ chối</th>
-                        <th>Trạng thái</th>
-                        <th>Người duyệt</th>
-                        <th>Chức năng</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                 </tbody>
             </table>

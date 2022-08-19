@@ -54,13 +54,6 @@
                             <th>Số giờ làm việc</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Thời gian vào ca</th>
-                            <th>Thời gian ra ca</th>
-                            <th>Số giờ làm việc</th>
-                        </tr>
-                    </tfoot>
                     <tbody>
                     </tbody>
                 </table>

@@ -93,68 +93,163 @@ $(document).ready(function() {
                     });
                 },500);
             } else {
-                $('#dataTables-off').DataTable({
-                    ajax: {
-                        'type': 'GET',
-                        'url': `${window.origin}:81/?url=off/index/${admin.NV_ID}`
-                    },
-                    columns: [
-                        {
-                            data: 'NP_ID',
-                            name: 'NP_ID'
-                        },
-                        {
-                            data: 'NP_NGAYBD',
-                            name: 'NP_NGAYBD'
-                        },
-                        {
-                            data: 'NP_NGAYKT',
-                            name: 'NP_NGAYKT'
-                        },
-                        {
-                            data: 'NP_LOAI',
-                            name: 'NP_LOAI'
-                        },
-                        {
-                            data: 'NP_LIDO',
-                            name: 'NP_LIDO'
-                        },
-                        {
-                            data: 'NP_COLUONG',
-                            name: 'NP_COLUONG'
-                        },
-                        {
-                            data: 'NP_LIDOTUCHOI',
-                            name: 'NP_LIDOTUCHOI'
-                        },
-                        {
-                            data: 'NP_DUYET',
-                            name: 'NP_DUYET'
-                        },
-                        {
-                            data: 'NP_IDNGUOIDUYET',
-                            name: 'NP_IDNGUOIDUYET'
-                        },
-                        {
-                            data: 'NP_ID',
-                            render: function(NP_ID, type, row) {
-                                $('#button-add-off').hide();
-                                if (row['NP_DUYET'] == 'Chờ duyệt') {
-                                    return `
-                                    <button class="btn btn-sm btn-success" data-id="${NP_ID}" id="button-confirm-off">
-                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-danger" data-id="${NP_ID}" id="button-cancel-off" data-toggle="modal" data-target="#cancel-off">
-                                        <i class="fa fa-ban" aria-hidden="true"></i>
-                                    </button>
-                                `;
-                                } else {
-                                    return '';
-                                }
+                $('#staff-off').html('Người làm đơn');
+                $.ajax({
+                    url: `${window.origin}:81/?url=off/getOffByManager/${admin.NV_ID}`,
+                    type: 'GET',
+                    success: function(res1) {
+                        var response1 = JSON.parse(res1);
+                        if (response1.data.length) {
+                            var staffs = [];
+                            var key = 0;
+                            while (key < response1.data.length) {
+                                $.ajax({
+                                    url: `${window.origin}${window.location.pathname}?url=staff/show/${response1.data[key].NP_IDNV}`,
+                                    data: {
+                                        key: key
+                                    },
+                                    type: 'GET',
+                                    success: function(res2) {
+                                        var response2 = JSON.parse(res2);
+                                        staffs.push(`${response1.data[response2.key].NP_ID}-${response2.NV_Ten}`);
+                                        localStorage.setItem('staffs', JSON.stringify(staffs));
+                                    }
+                                });
+                                key+=1;
                             }
+                            setTimeout(function(){
+                                var staffNews = localStorage.getItem('staffs');
+                                $('#dataTables-off').DataTable({
+                                    ajax: {
+                                        'type': 'GET',
+                                        'data': {
+                                            'staff': staffNews
+                                        },
+                                        'url': `${window.origin}:81/?url=off/getOffByManager/${admin.NV_ID}`
+                                    },
+                                    columns: [
+                                        {
+                                            data: 'NP_ID',
+                                            name: 'NP_ID'
+                                        },
+                                        {
+                                            data: 'NP_NGAYBD',
+                                            name: 'NP_NGAYBD'
+                                        },
+                                        {
+                                            data: 'NP_NGAYKT',
+                                            name: 'NP_NGAYKT'
+                                        },
+                                        {
+                                            data: 'NP_LOAI',
+                                            name: 'NP_LOAI'
+                                        },
+                                        {
+                                            data: 'NP_LIDO',
+                                            name: 'NP_LIDO'
+                                        },
+                                        {
+                                            data: 'NP_COLUONG',
+                                            name: 'NP_COLUONG'
+                                        },
+                                        {
+                                            data: 'NP_LIDOTUCHOI',
+                                            name: 'NP_LIDOTUCHOI'
+                                        },
+                                        {
+                                            data: 'NP_DUYET',
+                                            name: 'NP_DUYET'
+                                        },
+                                        {
+                                            data: 'NP_IDNV',
+                                            name: 'NP_IDNGUO'
+                                        },
+                                        {
+                                            data: 'NP_ID',
+                                            render: function(NP_ID, type, row) {
+                                                if (row['NP_DUYET'] == 'Chờ duyệt') {
+                                                    return `
+                                                    <button class="btn btn-sm btn-success" data-id="${NP_ID}" id="button-confirm-off">
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" data-id="${NP_ID}" id="button-cancel-off" data-toggle="modal" data-target="#cancel-off">
+                                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                                    </button>
+                                                    `;
+                                                } else {
+                                                    return '';
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "aaSorting": []
+                                });
+                            },500);
+                        } else {
+                            $('#dataTables-off').DataTable({
+                                ajax: {
+                                    'type': 'GET',
+                                    'url': `${window.origin}:81/?url=off/index/${admin.NV_ID}`
+                                },
+                                columns: [
+                                    {
+                                        data: 'NP_ID',
+                                        name: 'NP_ID'
+                                    },
+                                    {
+                                        data: 'NP_NGAYBD',
+                                        name: 'NP_NGAYBD'
+                                    },
+                                    {
+                                        data: 'NP_NGAYKT',
+                                        name: 'NP_NGAYKT'
+                                    },
+                                    {
+                                        data: 'NP_LOAI',
+                                        name: 'NP_LOAI'
+                                    },
+                                    {
+                                        data: 'NP_LIDO',
+                                        name: 'NP_LIDO'
+                                    },
+                                    {
+                                        data: 'NP_COLUONG',
+                                        name: 'NP_COLUONG'
+                                    },
+                                    {
+                                        data: 'NP_LIDOTUCHOI',
+                                        name: 'NP_LIDOTUCHOI'
+                                    },
+                                    {
+                                        data: 'NP_DUYET',
+                                        name: 'NP_DUYET'
+                                    },
+                                    {
+                                        data: 'NP_IDNGUOIDUYET',
+                                        name: 'NP_IDNGUOIDUYET'
+                                    },
+                                    {
+                                        data: 'NP_ID',
+                                        render: function(NP_ID, type, row) {
+                                            if (row['NP_DUYET'] == 'Chờ duyệt') {
+                                                return `
+                                                    <button class="btn btn-sm btn-primary" data-id="${NP_ID}" id="button-edit-off" data-toggle="modal" data-target="#edit-off">
+                                                        <i class="fa fa-pen" aria-hidden="true"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" data-id="${NP_ID}" id="button-delete-off">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                `;
+                                            } else {
+                                                return '';
+                                            }
+                                        }
+                                    }
+                                ],
+                                "aaSorting": []
+                            });
                         }
-                    ],
-                    "aaSorting": []
+                    }
                 });
             }
         }
@@ -348,7 +443,7 @@ $(document).ready(function() {
                 url: `${window.origin}:81/?url=off/updateOffStatus/${id}`,
                 type: 'POST',
                 data: {
-                    status: 1
+                    status: '1'
                 },
                 success: function(response) {
                     if (response) {
@@ -391,7 +486,7 @@ $(document).ready(function() {
                 type: 'POST',
                 data: {
                     reason: reason,
-                    status: 2
+                    status: '2'
                 },
                 success: function(response) {
                     if (response) {

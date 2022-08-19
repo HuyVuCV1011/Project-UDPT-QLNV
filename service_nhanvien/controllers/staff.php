@@ -32,7 +32,7 @@ class Staff extends Controller
         $model = $this->model('StaffModel');
         $res = $model->getById($id);
 
-        echo json_encode(array_merge($res, ['key' => $_GET['key']]));
+        echo json_encode(isset($_GET['key']) ? array_merge($res, ['key' => $_GET['key']]) : $res);
     }
 
     public function getManagerLevel1($id)

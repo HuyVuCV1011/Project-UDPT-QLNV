@@ -46,6 +46,14 @@ class Off extends Controller
     public function updateOffStatus($id)
     {
         $model = $this->model('OffModel'); 
-        echo $model->updateOffStatus($id, $_POST['status']); 
+        echo $model->updateOffStatus($id, $_POST['status'], isset($_POST['reason']) ? $_POST['reason'] : null); 
+    }
+
+    public function getOffByManager($id)
+    {
+        $model = $this->model('OffModel');
+        $res = $model->getOffByManager($id, isset($_GET['staff']) ? $_GET['staff'] : null);
+
+        echo json_encode($res);
     }
 }
