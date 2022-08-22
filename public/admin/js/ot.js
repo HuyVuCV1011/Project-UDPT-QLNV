@@ -71,60 +71,150 @@ $(document).ready(function() {
                     }
                 });
             } else {
-                $('#dataTables-ot').DataTable({
-                    ajax: {
-                        'type': 'GET',
-                        'url': `${window.origin}:81/?url=ot/index/${admin.NV_ID}`
-                    },
-                    columns: [
-                        {
-                            data: 'OT_ID',
-                            name: 'OT_ID'
-                        },
-                        {
-                            data: 'OT_NGAY',
-                            name: 'OT_NGAY'
-                        },
-                        {
-                            data: 'OT_GIO',
-                            name: 'OT_GIO'
-                        },
-                        {
-                            data: 'OT_LIDO',
-                            name: 'OT_LIDO'
-                        },
-                        {
-                            data: 'OT_LIDOTUCHOI',
-                            name: 'OT_LIDOTUCHOI'
-                        },
-                        {
-                            data: 'OT_DUYET',
-                            name: 'OT_DUYET'
-                        },
-                        {
-                            data: 'OT_IDNGUOIDUYET',
-                            name: 'OT_IDNGUOIDUYET'
-                        },
-                        {
-                            data: 'OT_ID',
-                            render: function(OT_ID, type, row) {
-                                $('#button-add-ot').hide();
-                                if (row['OT_DUYET'] == 'Chờ duyệt') {
-                                    return `
-                                    <button class="btn btn-sm  btn-success" data-id="${OT_ID}" id="button-confirm-ot">
-                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                    </button>
-                                    <button class="btn btn-sm  btn-danger" data-id="${OT_ID}" id="button-cancel-ot" data-toggle="modal" data-target="#cancel-ot">
-                                        <i class="fa fa-ban" aria-hidden="true"></i>
-                                    </button>
-                                `;
-                                } else {
-                                    return '';
-                                }
+                $('#staff-ot').html('Người làm đơn');
+                $('#button-add-ot').hide();
+                $.ajax({
+                    url: `${window.origin}:81/?url=ot/getOtByManager/${admin.NV_ID}`,
+                    type: 'GET',
+                    success: function(res1) {
+                        var response1 = JSON.parse(res1);
+                        if (response1.data.length) {
+                            var staffs = [];
+                            var key = 0;
+                            while (key < response1.data.length) {
+                                $.ajax({
+                                    url: `${window.origin}${window.location.pathname}?url=staff/show/${response1.data[key].OT_IDNV}`,
+                                    data: {
+                                        key: key
+                                    },
+                                    type: 'GET',
+                                    success: function(res2) {
+                                        var response2 = JSON.parse(res2);
+                                        staffs.push(`${response1.data[response2.key].OT_ID}-${response2.NV_Ten}`);
+                                        localStorage.setItem('staffs', JSON.stringify(staffs));
+                                    }
+                                });
+                                key+=1;
                             }
+                            setTimeout(function(){
+                                var staffNews = localStorage.getItem('staffs');
+                                $('#dataTables-ot').DataTable({
+                                    ajax: {
+                                        'type': 'GET',
+                                        'data': {
+                                            'staff': staffNews
+                                        },
+                                        'url': `${window.origin}:81/?url=ot/getOtByManager/${admin.NV_ID}`
+                                    },
+                                    columns: [
+                                        {
+                                            data: 'OT_ID',
+                                            name: 'OT_ID'
+                                        },
+                                        {
+                                            data: 'OT_NGAY',
+                                            name: 'OT_NGAY'
+                                        },
+                                        {
+                                            data: 'OT_GIO',
+                                            name: 'OT_GIO'
+                                        },
+                                        {
+                                            data: 'OT_LIDO',
+                                            name: 'OT_LIDO'
+                                        },
+                                        {
+                                            data: 'OT_LIDOTUCHOI',
+                                            name: 'OT_LIDOTUCHOI'
+                                        },
+                                        {
+                                            data: 'OT_DUYET',
+                                            name: 'OT_DUYET'
+                                        },
+                                        {
+                                            data: 'OT_IDNV',
+                                            name: 'OT_IDNV'
+                                        },
+                                        {
+                                            data: 'OT_ID',
+                                            render: function(OT_ID, type, row) {
+                                                $('#button-add-ot').hide();
+                                                if (row['OT_DUYET'] == 'Chờ duyệt') {
+                                                    return `
+                                                    <button class="btn btn-sm  btn-success" data-id="${OT_ID}" id="button-confirm-ot">
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm  btn-danger" data-id="${OT_ID}" id="button-cancel-ot" data-toggle="modal" data-target="#cancel-ot">
+                                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                                    </button>
+                                                `;
+                                                } else {
+                                                    return '';
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "aaSorting": []
+                                });
+                            },500);
+                        } else {
+                            $('#dataTables-ot').DataTable({
+                                ajax: {
+                                    'type': 'GET',
+                                    'url': `${window.origin}:81/?url=ot/index/${admin.NV_ID}`
+                                },
+                                columns: [
+                                    {
+                                        data: 'OT_ID',
+                                        name: 'OT_ID'
+                                    },
+                                    {
+                                        data: 'OT_NGAY',
+                                        name: 'OT_NGAY'
+                                    },
+                                    {
+                                        data: 'OT_GIO',
+                                        name: 'OT_GIO'
+                                    },
+                                    {
+                                        data: 'OT_LIDO',
+                                        name: 'OT_LIDO'
+                                    },
+                                    {
+                                        data: 'OT_LIDOTUCHOI',
+                                        name: 'OT_LIDOTUCHOI'
+                                    },
+                                    {
+                                        data: 'OT_DUYET',
+                                        name: 'OT_DUYET'
+                                    },
+                                    {
+                                        data: 'OT_IDNGUOIDUYET',
+                                        name: 'OT_IDNGUOIDUYET'
+                                    },
+                                    {
+                                        data: 'OT_ID',
+                                        render: function(OT_ID, type, row) {
+                                            $('#button-add-ot').hide();
+                                            if (row['OT_DUYET'] == 'Chờ duyệt') {
+                                                return `
+                                                <button class="btn btn-sm  btn-primary" data-id="${OT_ID}" id="button-edit-ot" data-toggle="modal" data-target="#edit-ot">
+                                                    <i class="fa fa-pen" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="btn btn-sm  btn-danger" data-id="${OT_ID}" id="button-delete-ot">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                            `;
+                                            } else {
+                                                return '';
+                                            }
+                                        }
+                                    }
+                                ],
+                                "aaSorting": []
+                            });
                         }
-                    ],
-                    "aaSorting": []
+                    }
                 });
             }
         }
@@ -297,11 +387,7 @@ $(document).ready(function() {
                 type: 'POST',
                 data: {
                     id: id,
-                    status: 1
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    status: '1'
                 },
                 success: function(response) {
                     if (response) {
@@ -344,7 +430,7 @@ $(document).ready(function() {
                 type: 'POST',
                 data: {
                     reason: reason,
-                    status: 2
+                    status: '2'
                 },
                 success: function(response) {
                     if (response) {

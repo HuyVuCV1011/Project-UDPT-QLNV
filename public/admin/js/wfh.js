@@ -72,60 +72,149 @@ $(document).ready(function() {
                     }
                 });
             } else {
-                $('#dataTables-wfh').DataTable({
-                    ajax: {
-                        'type': 'GET',
-                        'url': `${window.origin}:81/?url=wfh/index/${admin.NV_ID}`
-                    },
-                    columns: [
-                        {
-                            data: 'TN_ID',
-                            name: 'TN_ID'
-                        },
-                        {
-                            data: 'TN_NGAYBD',
-                            name: 'TN_NGAYBD'
-                        },
-                        {
-                            data: 'TN_NGAYKT',
-                            name: 'TN_NGAYKT'
-                        },
-                        {
-                            data: 'TN_LIDO',
-                            name: 'TN_LIDO'
-                        },
-                        {
-                            data: 'TN_LIDOTUCHOI',
-                            name: 'TN_LIDOTUCHOI'
-                        },
-                        {
-                            data: 'TN_DUYET',
-                            name: 'TN_DUYET'
-                        },
-                        {
-                            data: 'TN_IDNGUOIDUYET',
-                            name: 'TN_IDNGUOIDUYET'
-                        },
-                        {
-                            data: 'TN_ID',
-                            render: function(TN_ID, type, row) {
-                                $('#button-add-wfh').hide();
-                                if (row['TN_DUYET'] == 'Chờ duyệt') {
-                                    return `
-                                    <button class="btn btn-sm btn-success" data-id="${TN_ID}" id="button-confirm-wfh">
-                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-danger" data-id="${TN_ID}" id="button-cancel-wfh" data-toggle="modal" data-target="#cancel-wfh">
-                                        <i class="fa fa-ban" aria-hidden="true"></i>
-                                    </button>
-                                `;
-                                } else {
-                                    return '';
-                                }
+                $('#staff-wfh').html('Người làm đơn');
+                $('#button-add-wfh').hide();
+                $.ajax({
+                    url: `${window.origin}:81/?url=wfh/getWfhByManager/${admin.NV_ID}`,
+                    type: 'GET',
+                    success: function(res1) {
+                        var response1 = JSON.parse(res1);
+                        if (response1.data.length) {
+                            var staffs = [];
+                            var key = 0;
+                            while (key < response1.data.length) {
+                                $.ajax({
+                                    url: `${window.origin}${window.location.pathname}?url=staff/show/${response1.data[key].TN_IDNV}`,
+                                    data: {
+                                        key: key
+                                    },
+                                    type: 'GET',
+                                    success: function(res2) {
+                                        var response2 = JSON.parse(res2);
+                                        staffs.push(`${response1.data[response2.key].TN_ID}-${response2.NV_Ten}`);
+                                        localStorage.setItem('staffs', JSON.stringify(staffs));
+                                    }
+                                });
+                                key+=1;
                             }
+                            setTimeout(function(){
+                                var staffNews = localStorage.getItem('staffs');
+                                $('#dataTables-wfh').DataTable({
+                                    ajax: {
+                                        'type': 'GET',
+                                        'data': {
+                                            'staff': staffNews
+                                        },
+                                        'url': `${window.origin}:81/?url=wfh/getWfhByManager/${admin.NV_ID}`
+                                    },
+                                    columns: [
+                                        {
+                                            data: 'TN_ID',
+                                            name: 'TN_ID'
+                                        },
+                                        {
+                                            data: 'TN_NGAYBD',
+                                            name: 'TN_NGAYBD'
+                                        },
+                                        {
+                                            data: 'TN_NGAYKT',
+                                            name: 'TN_NGAYKT'
+                                        },
+                                        {
+                                            data: 'TN_LIDO',
+                                            name: 'TN_LIDO'
+                                        },
+                                        {
+                                            data: 'TN_LIDOTUCHOI',
+                                            name: 'TN_LIDOTUCHOI'
+                                        },
+                                        {
+                                            data: 'TN_DUYET',
+                                            name: 'TN_DUYET'
+                                        },
+                                        {
+                                            data: 'TN_IDNV',
+                                            name: 'TN_IDNV'
+                                        },
+                                        {
+                                            data: 'TN_ID',
+                                            render: function(TN_ID, type, row) {
+                                                $('#button-add-wfh').hide();
+                                                if (row['TN_DUYET'] == 'Chờ duyệt') {
+                                                    return `
+                                                    <button class="btn btn-sm btn-success" data-id="${TN_ID}" id="button-confirm-wfh">
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" data-id="${TN_ID}" id="button-cancel-wfh" data-toggle="modal" data-target="#cancel-wfh">
+                                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                                    </button>
+                                                `;
+                                                } else {
+                                                    return '';
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "aaSorting": []
+                                });
+                            },500);
+                        } else {
+                            $('#dataTables-wfh').DataTable({
+                                ajax: {
+                                    'type': 'GET',
+                                    'url': `${window.origin}:81/?url=wfh/index/${admin.NV_ID}`
+                                },
+                                columns: [
+                                    {
+                                        data: 'TN_ID',
+                                        name: 'TN_ID'
+                                    },
+                                    {
+                                        data: 'TN_NGAYBD',
+                                        name: 'TN_NGAYBD'
+                                    },
+                                    {
+                                        data: 'TN_NGAYKT',
+                                        name: 'TN_NGAYKT'
+                                    },
+                                    {
+                                        data: 'TN_LIDO',
+                                        name: 'TN_LIDO'
+                                    },
+                                    {
+                                        data: 'TN_LIDOTUCHOI',
+                                        name: 'TN_LIDOTUCHOI'
+                                    },
+                                    {
+                                        data: 'TN_DUYET',
+                                        name: 'TN_DUYET'
+                                    },
+                                    {
+                                        data: 'TN_IDNGUOIDUYET',
+                                        name: 'TN_IDNGUOIDUYET'
+                                    },
+                                    {
+                                        data: 'TN_ID',
+                                        render: function(TN_ID, type, row) {
+                                            if (row['TN_DUYET'] == 'Chờ duyệt') {
+                                                return `
+                                                    <button class="btn btn-sm btn-primary" data-id="${TN_ID}" id="button-edit-wfh" data-toggle="modal" data-target="#edit-wfh">
+                                                        <i class="fa fa-pen" aria-hidden="true"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" data-id="${TN_ID}" id="button-delete-wfh">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                `;
+                                            } else {
+                                                return '';
+                                            }
+                                        }
+                                    }
+                                ],
+                                "aaSorting": []
+                            });
                         }
-                    ],
-                    "aaSorting": []
+                    }
                 });
             }
         }
@@ -307,7 +396,7 @@ $(document).ready(function() {
                 url: `${window.origin}:81/?url=wfh/updateWfhStatus/${id}`,
                 type: 'POST',
                 data: {
-                    status: 1
+                    status: '1'
                 },
                 success: function(response) {
                     if (response) {
@@ -350,7 +439,7 @@ $(document).ready(function() {
                 type: 'POST',
                 data: {
                     reason: reason,
-                    status: 2
+                    status: '2'
                 },
                 success: function(response) {
                     if (response) {

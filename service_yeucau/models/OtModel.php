@@ -69,4 +69,30 @@ class OtModel extends DB
         }
         return mysqli_query($this->con, $sql);
     }
+
+    public function getOtByManager($id, $staff)
+    {
+        if (!is_null($staff)) {
+            $staffArr = json_decode($staff);
+        }
+        $sql = "SELECT * FROM {$this->getTableName()} WHERE OT_IDNGUOIDUYET = '{$id}' ORDER BY OT_ID DESC";
+        $result = mysqli_query($this->con, $sql);
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $row['OT_NGAY'] = date('d/m/Y', strtotime($row['OT_NGAY']));
+            $row['OT_DUYET'] = $row['OT_DUYET'] == 0 ? 'Chờ duyệt' : ($row['OT_DUYET'] == 1 ? 'Chấp nhận' : 'Từ chối');
+            $row['OT_LIDOTUCHOI'] = is_null($row['OT_LIDOTUCHOI']) ? 'N/A' : $row['OT_LIDOTUCHOI'];
+            if (isset($staffArr)) {
+                foreach ($staffArr as $arr) {
+                    $newArr = explode('-', $arr);
+                    if ($row['OT_ID'] == $newArr[0]) {
+                        $row['OT_IDNV'] = $newArr[1];
+                    }
+                }
+            }
+            $data[] = $row;
+        }
+
+        return ['data' => $data];
+    }
 }

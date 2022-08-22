@@ -14,22 +14,10 @@
                         <th>Lý do tăng ca</th>
                         <th>Lý do từ chối</th>
                         <th>Trạng thái</th>
-                        <th>Người duyệt</th>
+                        <th id="staff-ot">Người duyệt</th>
                         <th>Chức năng</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>#</th>
-                        <th>Ngày tăng ca</th>
-                        <th>Số giờ</th>
-                        <th>Lý do tăng ca</th>
-                        <th>Lý do từ chối</th>
-                        <th>Trạng thái</th>
-                        <th>Người duyệt</th>
-                        <th>Chức năng</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                 </tbody>
             </table>

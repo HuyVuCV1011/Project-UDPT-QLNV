@@ -17,6 +17,16 @@ class Controller
     }
 
     /**
+     * Gọi view.
+     * @param $view
+     * @param array $data
+     */
+    public function view($view, $data=[])
+    {
+        require_once "./views/admins/".$view.".php";
+    }
+
+    /**
      * Redirect to $url
      * If $url = null, redirect to referer page.
      * @param null $url

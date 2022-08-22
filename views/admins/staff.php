@@ -17,18 +17,6 @@
                         <th>Chức năng</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Tài khoản</th>
-                        <th>Họ tên</th>
-                        <th>Giới tính</th>
-                        <th>Ngày sinh</th>
-                        <th>Sđt</th>
-                        <th>Phòng ban</th>
-                        <th>Số ngày phép</th>
-                        <th>Chức năng</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                 </tbody>
             </table>
