@@ -3,6 +3,7 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-body">
+        <!--Modal-->
         <button class="btn btn-primary mb-4" data-toggle="modal" data-target="#add-wfh" id="button-add-wfh"><i class="fa fa-plus" aria-hidden="true"></i></button>
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTables-wfh" width="100%" cellspacing="0">

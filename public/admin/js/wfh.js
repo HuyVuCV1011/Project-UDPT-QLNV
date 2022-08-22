@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    //Lấy thông tin admin nếu có
     var admin = JSON.parse(localStorage.getItem('admin'));
     $.ajax({
         url: `${window.origin}:81/?url=wfh/index/${admin.NV_ID}`,

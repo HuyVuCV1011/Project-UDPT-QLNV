@@ -1,5 +1,5 @@
 <?php
-
+//Khai báo namespace để gọi class App mới tại index.php
 namespace ServiceYeuCau\Core;
 
 class App{
@@ -7,6 +7,7 @@ class App{
     protected $action = "execute";
     protected $params = [];
 
+    //Constructor
     function __construct(){
  
         $arr = $this->UrlProcess();
@@ -36,6 +37,7 @@ class App{
         }
     }
 
+    
     function UrlProcess(){
         if( isset($_GET["url"]) ){
             return explode("/", filter_var(trim($_GET["url"], "/")));
