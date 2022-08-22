@@ -87,7 +87,7 @@ class OffModel extends DB
         if (!is_null($staff)) {
             $staffArr = json_decode($staff);
         }
-        $sql = "SELECT * FROM {$this->getTableName()} WHERE NP_IDNV = '{$id}' ORDER BY NP_ID DESC";
+        $sql = "SELECT * FROM {$this->getTableName()} WHERE NP_IDNGUOIDUYET = '{$id}' ORDER BY NP_ID DESC";
         $result = mysqli_query($this->con, $sql);
         $data = [];
         while ($row = mysqli_fetch_assoc($result)) {
