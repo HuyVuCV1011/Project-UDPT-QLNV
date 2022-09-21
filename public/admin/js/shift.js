@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    //admin
     var admin = JSON.parse(localStorage.getItem('admin'));
 
     $('#dataTables-shift').DataTable({

@@ -93,6 +93,7 @@ $(document).ready(function() {
                     });
                 },500);
             } else {
+                //admin
                 $('#staff-off').html('Người làm đơn');
                 $('#button-add-off').hide();
                 $.ajax({

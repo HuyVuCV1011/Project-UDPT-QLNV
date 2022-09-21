@@ -1,18 +1,21 @@
 $(document).ready(function() {
     //Lấy thông tin admin nếu có
     var admin = JSON.parse(localStorage.getItem('admin'));
+    //Lấy ra người duyệt - nhân viên đăng nhập vào
     $.ajax({
         url: `${window.origin}:81/?url=wfh/index/${admin.NV_ID}`,
         type: 'GET',
         success: function(res1) {
             var response1 = JSON.parse(res1);
             if (response1.data.length > 0) {
+                //Trả về tên người duyệt
                 $.ajax({
                     url: `${window.origin}${window.location.pathname}?url=staff/show/${response1.data[0].TN_IDNGUOIDUYET}`,
                     type: 'GET',
                     success: function(res2) {
                         var response2 = JSON.parse(res2);
                         $('#dataTables-wfh').DataTable({
+                            //Lấy thông tin người làm đơn vào bảng
                             ajax: {
                                 'type': 'GET',
                                 'data': {
@@ -74,6 +77,7 @@ $(document).ready(function() {
             } else {
                 $('#staff-wfh').html('Người làm đơn');
                 $('#button-add-wfh').hide();
+                //wfh mà người duyệt đăng nhập vào
                 $.ajax({
                     url: `${window.origin}:81/?url=wfh/getWfhByManager/${admin.NV_ID}`,
                     type: 'GET',
@@ -83,6 +87,7 @@ $(document).ready(function() {
                             var staffs = [];
                             var key = 0;
                             while (key < response1.data.length) {
+                                //Trả về tên người làm đơn
                                 $.ajax({
                                     url: `${window.origin}${window.location.pathname}?url=staff/show/${response1.data[key].TN_IDNV}`,
                                     data: {
@@ -100,6 +105,7 @@ $(document).ready(function() {
                             setTimeout(function(){
                                 var staffNews = localStorage.getItem('staffs');
                                 $('#dataTables-wfh').DataTable({
+                                    //Lấy thông tin người làm đơn vào bảng
                                     ajax: {
                                         'type': 'GET',
                                         'data': {
@@ -160,6 +166,7 @@ $(document).ready(function() {
                             },500);
                         } else {
                             $('#dataTables-wfh').DataTable({
+                                //Trường hợp chưa có đơn nào
                                 ajax: {
                                     'type': 'GET',
                                     'url': `${window.origin}:81/?url=wfh/index/${admin.NV_ID}`
@@ -256,6 +263,7 @@ $(document).ready(function() {
                 type: 'GET',
                 success: function(res) {
                     var response = JSON.parse(res);
+                    //Thêm yêu cầu nghỉ
                     $.ajax({
                         url: `${window.origin}:81/?url=wfh/addWfh/${admin.NV_ID}`,
                         type: 'POST',
@@ -292,7 +300,7 @@ $(document).ready(function() {
         }
 
         const id = $(this).data('id');
-
+        //Xóa yêu cầu
         $.ajax({
             url: `${window.origin}:81/?url=wfh/deleteWfh/${id}`,
             type: 'POST',
@@ -364,6 +372,7 @@ $(document).ready(function() {
             });
             return false;
         } else {
+            //Cập nhật yêu cầu
             $.ajax({
                 url: `${window.origin}:81/?url=wfh/updateWfh/${id}`,
                 type: 'POST',
@@ -391,6 +400,7 @@ $(document).ready(function() {
 
     $("#dataTables-wfh").on('click', '#button-confirm-wfh', function() {
         const id = $(this).data('id');
+        //Xác nhận yêu cầu
         if (confirm('Bạn có muốn xác nhận yêu cầu này ?') === true) {
             $.ajax({
                 url: `${window.origin}:81/?url=wfh/updateWfhStatus/${id}`,
@@ -434,6 +444,7 @@ $(document).ready(function() {
             });
             return false;
         } else {
+            //Hủy yêu cầu của người duyệt
             $.ajax({
                 url: `${window.origin}:81/?url=wfh/updateWfhStatus/${id}`,
                 type: 'POST',

@@ -4,6 +4,7 @@ namespace ServiceYeuCau\Core;
 /**
  * Class Controller
  */
+//Controller cha - kế thừa
 class Controller
 {
     /**
